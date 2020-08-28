@@ -1,4 +1,4 @@
-package com.example.cocktailor
+package ch.zhaw.ma20.cocktailor
 
 import org.junit.Test
 

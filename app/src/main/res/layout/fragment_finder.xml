@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="ch.zhaw.ma20.cocktailor.fragments.FinderFragment">
+
+    <TextView
+        android:id="@+id/findCocktailsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/text_margin"
+        android:fontFamily="@font/euphoria_script"
+        android:text="@string/findCocktails"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/searchIngredientsEt"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:hint="@string/filterIngredients"
+        app:layout_constraintBottom_toTopOf="@+id/filterIngredientsLabel"
+        app:layout_constraintTop_toBottomOf="@+id/findCocktailsTitle" />
+
+    <TextView
+        android:id="@+id/filterIngredientsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:labelFor="@id/filterIngredientsButton"
+        android:text="@string/showSelectedIngredients"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchIngredientsEt" />
+
+    <Switch
+        android:id="@+id/filterIngredientsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintStart_toEndOf="@id/filterIngredientsLabel"
+        app:layout_constraintTop_toBottomOf="@+id/searchIngredientsEt" />
+
+    <ListView
+        android:id="@+id/ingredients_list"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/filterIngredientsLabel" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
