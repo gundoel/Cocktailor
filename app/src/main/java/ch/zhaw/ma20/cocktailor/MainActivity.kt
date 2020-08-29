@@ -11,7 +11,9 @@ import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.fragments.FavoritesFragment
 import ch.zhaw.ma20.cocktailor.fragments.FinderFragment
 import ch.zhaw.ma20.cocktailor.fragments.MyBarFragment
+import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import ch.zhaw.ma20.cocktailor.model.Ingredients
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.android.volley.Request
@@ -22,46 +24,55 @@ import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.fragment_finder.*
 
 class MainActivity : AppCompatActivity() {
-    var adapter: IngredientsSearchAdapter? = null;
-    val INGREDIENTS_URL = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
-        var finderFragment = FinderFragment()
-        val favoritesFragment = FavoritesFragment()
-        val myBarFragment = MyBarFragment()
+        // load data
+        var finderFragment : FinderFragment
+        var favoritesFragment : FavoritesFragment
+        var myBarFragment : MyBarFragment
 
-        makeCurrentFragment(finderFragment)
-
-        bottom_navigation_menu.setOnNavigationItemSelectedListener {
-            //TODO save current fragment state and restore it on reload
-            when (it.itemId) {
-                R.id.nav_finder -> makeCurrentFragment(finderFragment)
-                R.id.nav_favorites -> makeCurrentFragment(favoritesFragment)
-                R.id.nav_mybar -> makeCurrentFragment(myBarFragment)
-            }
-            true
-        }
+        val INGREDIENTSURL = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list"
 
         // Ingredients-Request gleich beim Start absetzen
         val requestQueue = Volley.newRequestQueue(this)
         val request = StringRequest(
-            Request.Method.GET, INGREDIENTS_URL,
+            Request.Method.GET, INGREDIENTSURL,
             Response.Listener<String> { response ->
-                //val inputStream = baseContext.resources.openRawResource(R.raw.stationboard)
-                val ingredient = Klaxon().parse<Ingredients>(response)
-                adapter = IngredientsSearchAdapter(ingredient!!.drinks, baseContext);
-                ingredients_list.adapter = adapter
-                //find the response string in "response"
+                val ingredients = Klaxon().parse<Ingredients>(response)
+                //val ingredients = mutableListOf<IngredientListItem>(IngredientListItem("Hans"))
+                RemoteDataCache.addIngredientsList(ingredients!!.drinks)
+                // TODO ugly design: UI should update itself, when data is done caching
+                finderFragment = FinderFragment()
+                favoritesFragment = FavoritesFragment()
+                myBarFragment = MyBarFragment()
+                makeCurrentFragment(finderFragment)
+
+                bottom_navigation_menu.setOnNavigationItemSelectedListener {
+                    // TODO save current fragment state and restore it on reload: Singleton-Datengefäss (Kotlin Object ist ein Singleton)
+                    // TODO how to load pics from json url: BitmapFactory. Bild über URL als decodeByteArray laden. Beim Starten der App alles Cachen inkl. Bilder.
+                    // TODO how to update list, filter list: 2. Liste erstellen (Kopie erstellen von voller Liste, Filter auf 2. Liste aufrufen und auf dem adapter.notifyChange aufrufen
+                    // Vorsicht: Wenn man die Liste gefiltert hat, muss man sie neu auf dem Adapter setzen. Evtl. ist notify dann nicht mehr nötig.
+                    // TODO how to save data: SharedPreferences
+                    when (it.itemId) {
+                        R.id.nav_finder -> makeCurrentFragment(finderFragment)
+                        R.id.nav_favorites -> makeCurrentFragment(favoritesFragment)
+                        R.id.nav_mybar -> makeCurrentFragment(myBarFragment)
+                    }
+                    true
+                }
             },
+
             Response.ErrorListener {
                 Log.e("VOLLEY ERROR:", it.toString())
             })
         //add the call to the request queue
         requestQueue.add(request)
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
