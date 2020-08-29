@@ -31,46 +31,25 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         // load data
-        var finderFragment : FinderFragment
-        var favoritesFragment : FavoritesFragment
-        var myBarFragment : MyBarFragment
+        var finderFragment = FinderFragment()
+        var favoritesFragment = FavoritesFragment()
+        var myBarFragment = MyBarFragment()
 
-        val INGREDIENTSURL = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list"
+        makeCurrentFragment(finderFragment)
 
-        // Ingredients-Request gleich beim Start absetzen
-        val requestQueue = Volley.newRequestQueue(this)
-        val request = StringRequest(
-            Request.Method.GET, INGREDIENTSURL,
-            Response.Listener<String> { response ->
-                val ingredients = Klaxon().parse<Ingredients>(response)
-                //val ingredients = mutableListOf<IngredientListItem>(IngredientListItem("Hans"))
-                RemoteDataCache.addIngredientsList(ingredients!!.drinks)
-                // TODO ugly design: UI should update itself, when data is done caching
-                finderFragment = FinderFragment()
-                favoritesFragment = FavoritesFragment()
-                myBarFragment = MyBarFragment()
-                makeCurrentFragment(finderFragment)
-
-                bottom_navigation_menu.setOnNavigationItemSelectedListener {
-                    // TODO save current fragment state and restore it on reload: Singleton-Datengefäss (Kotlin Object ist ein Singleton)
-                    // TODO how to load pics from json url: BitmapFactory. Bild über URL als decodeByteArray laden. Beim Starten der App alles Cachen inkl. Bilder.
-                    // TODO how to update list, filter list: 2. Liste erstellen (Kopie erstellen von voller Liste, Filter auf 2. Liste aufrufen und auf dem adapter.notifyChange aufrufen
-                    // Vorsicht: Wenn man die Liste gefiltert hat, muss man sie neu auf dem Adapter setzen. Evtl. ist notify dann nicht mehr nötig.
-                    // TODO how to save data: SharedPreferences
-                    when (it.itemId) {
-                        R.id.nav_finder -> makeCurrentFragment(finderFragment)
-                        R.id.nav_favorites -> makeCurrentFragment(favoritesFragment)
-                        R.id.nav_mybar -> makeCurrentFragment(myBarFragment)
-                    }
-                    true
-                }
-            },
-
-            Response.ErrorListener {
-                Log.e("VOLLEY ERROR:", it.toString())
-            })
-        //add the call to the request queue
-        requestQueue.add(request)
+        bottom_navigation_menu.setOnNavigationItemSelectedListener {
+            // TODO save current fragment state and restore it on reload: Singleton-Datengefäss (Kotlin Object ist ein Singleton)
+            // TODO how to load pics from json url: BitmapFactory. Bild über URL als decodeByteArray laden. Beim Starten der App alles Cachen inkl. Bilder.
+            // TODO how to update list, filter list: 2. Liste erstellen (Kopie erstellen von voller Liste, Filter auf 2. Liste aufrufen und auf dem adapter.notifyChange aufrufen
+            // Vorsicht: Wenn man die Liste gefiltert hat, muss man sie neu auf dem Adapter setzen. Evtl. ist notify dann nicht mehr nötig.
+            // TODO how to save data: SharedPreferences
+            when (it.itemId) {
+                R.id.nav_finder -> makeCurrentFragment(finderFragment)
+                R.id.nav_favorites -> makeCurrentFragment(favoritesFragment)
+                R.id.nav_mybar -> makeCurrentFragment(myBarFragment)
+            }
+            true
+        }
 
 
     }
