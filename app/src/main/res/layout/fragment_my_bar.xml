@@ -1,13 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ch.zhaw.ma20.cocktailor.fragments.MyBarFragment">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="ch.zhaw.ma20.cocktailor.fragments.FinderFragment">
 
     <TextView
+        android:id="@+id/myBarTitel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
-        android:text="@string/mybar" />
-</androidx.core.widget.NestedScrollView>
+        android:fontFamily="@font/euphoria_script"
+        android:text="@string/mybar"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addToBarLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:labelFor="@id/filterIngredientsButton"
+        android:text="Add to the Bar:"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/myBarTitel" />
+
+    <SearchView
+        android:id="@+id/searchForBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:queryHint="Find new ingredients"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addToBarLabel" />
+
+    <ListView
+        android:id="@+id/listViewMyBarSearch"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginTop="10dp"
+        android:dividerHeight="2dp"
+        app:layout_constraintTop_toBottomOf="@+id/searchForBar"
+        tools:layout_editor_absoluteX="31dp" />
+
+    <ListView
+        android:id="@+id/listViewMyBar"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/listViewMyBarSearch"
+        tools:layout_editor_absoluteX="0dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
