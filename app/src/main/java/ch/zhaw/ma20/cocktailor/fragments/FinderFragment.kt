@@ -19,6 +19,7 @@ class FinderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var layout = inflater.inflate(R.layout.fragment_finder, container, false)
+
         adapter = IngredientsSearchAdapter(RemoteDataCache!!.ingredientsList, requireContext())
         layout.ingredients_list.adapter = adapter
         return layout
