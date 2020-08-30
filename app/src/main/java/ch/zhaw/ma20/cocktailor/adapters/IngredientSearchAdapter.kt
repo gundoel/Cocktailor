@@ -1,47 +1,61 @@
 package ch.zhaw.ma20.cocktailor.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Toast
 import ch.zhaw.ma20.cocktailor.model.IngredientListItem
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import com.example.cocktailor.R
 import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
-class IngredientsSearchAdapter(var stationboardEntries: MutableList<IngredientListItem>, val context: Context) : BaseAdapter() {
-    var layoutInflater : LayoutInflater
+class IngredientsSearchAdapter(
+    var ingredients: MutableList<IngredientListItem>,
+    val context: Context
 
-    init {
-        // sort alphabetically
-        stationboardEntries.sortBy { it.strIngredient1.toString()}
-        layoutInflater = LayoutInflater.from(context)
+) : BaseAdapter() {
+    var layoutInflater: LayoutInflater = LayoutInflater.from(context)
+    var selectedItems = RemoteDataCache.selectedItems
+
+    override fun getCount(): Int {
+        return ingredients.size
     }
 
-    override fun getCount(): Int { //number of elements to display
-        return stationboardEntries.size
+    override fun getItem(index: Int): IngredientListItem {
+        return ingredients.get(index)
     }
 
-    override fun getItem(index: Int): IngredientListItem { //item at index
-        return stationboardEntries.get(index)
-    }
-
-    override fun getItemId(index: Int): Long { //itemId for
+    override fun getItemId(index: Int): Long {
         return 0
     }
 
-    override fun getView(index: Int, oldView: View?,
-                         viewGroup: ViewGroup?): View {
-        var view : View
-        if (oldView == null) { //check if we get a view to recycle
+    override fun getView(
+        index: Int, oldView: View?,
+        viewGroup: ViewGroup?
+    ): View {
+        var view: View
+        //check if we get a view to recycle
+        if (oldView == null) {
             view = layoutInflater.inflate(R.layout.ingredient_selectable_item, null)
-        }
-        else { //if yes, use the oldview
+        } else {
             view = oldView
         }
-
-        val entry = getItem(index) //get the data for this index
-        view.ingredientName.text = entry.strIngredient1 //and fill the layout
+        view.ingredientNameCb.setOnClickListener {
+            val isChecked: Boolean = view.ingredientNameCb.isChecked
+            val itemText: String = view.ingredientNameCb.text.toString()
+            if (!isChecked && selectedItems.contains(itemText)) {
+                selectedItems.remove(itemText)
+            } else if (isChecked) {
+                selectedItems.add(itemText)
+            }
+            //Log.i("CHECKBOX",view.ingredientNameCb.text.toString() + " checked changed to " + isChecked.toString())
+        }
+        val entry = getItem(index)
+        view.ingredientNameCb.text = entry.strIngredient1
+        view.ingredientNameCb.isChecked = selectedItems.contains(view.ingredientNameCb.text.toString())
         return view
     }
 }

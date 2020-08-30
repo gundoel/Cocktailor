@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import com.example.cocktailor.R
+import kotlinx.android.synthetic.main.ingredient_item.view.*
 import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
 class MyBarListAdapter(

@@ -9,7 +9,7 @@
     tools:context="ch.zhaw.ma20.cocktailor.fragments.FinderFragment">
 
     <TextView
-        android:id="@+id/myBarTitel"
+        android:id="@+id/myBarTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/text_margin"
@@ -26,11 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:labelFor="@id/filterIngredientsButton"
         android:text="Add to the Bar:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/myBarTitel" />
+        app:layout_constraintTop_toBottomOf="@+id/myBarTitle" />
 
     <SearchView
         android:id="@+id/searchForBar"

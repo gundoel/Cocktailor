@@ -22,31 +22,69 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/searchIngredientsEt"
+        android:id="@id/filterIngredientsSubstringEt"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:hint="@string/filterIngredients"
-        app:layout_constraintBottom_toTopOf="@+id/filterIngredientsLabel"
+        app:layout_constraintBottom_toTopOf="@+id/filterIngredientsWrapper"
         app:layout_constraintTop_toBottomOf="@+id/findCocktailsTitle" />
 
-    <TextView
-        android:id="@+id/filterIngredientsLabel"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/filterIngredientsWrapper"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:labelFor="@id/filterIngredientsButton"
-        android:text="@string/showSelectedIngredients"
+        android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchIngredientsEt" />
+        app:layout_constraintTop_toBottomOf="@id/filterIngredientsSubstringEt">
 
-    <Switch
-        android:id="@+id/filterIngredientsButton"
+        <Switch
+            android:id="@+id/filterIngredientsSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/filterIngredientsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:labelFor="@id/filterIngredientsSwitch"
+            android:text="@string/showSelectedIngredients" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/searchWithAllIngredientsWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/filterIngredientsWrapper">
+
+        <Switch
+            android:id="@+id/searchWithAllIngredientsSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/searchWithAllIngredientsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:labelFor="@id/searchWithAllIngredientsSwitch"
+            android:text="@string/searchWithAllIngredients" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/startSearchButton"
+        android:text="@string/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="30dp"
-        app:layout_constraintStart_toEndOf="@id/filterIngredientsLabel"
-        app:layout_constraintTop_toBottomOf="@+id/searchIngredientsEt" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchWithAllIngredientsWrapper" />
 
     <ListView
         android:id="@+id/ingredients_list"
@@ -56,6 +94,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/filterIngredientsLabel" />
+        app:layout_constraintTop_toBottomOf="@+id/searchWithAllIngredientsWrapper" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

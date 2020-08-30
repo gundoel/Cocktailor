@@ -105,4 +105,6 @@
     <string name="findCocktails">Find Cocktails</string>
     <string name="filterIngredients">Filter ingredients</string>
     <string name="showSelectedIngredients">Selected ingredients only</string>
+    <string name="searchWithAllIngredients">Show drinks with all selected ingredients only</string>
+    <string name="search">Search</string>
 </resources>

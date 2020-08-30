@@ -12,15 +12,13 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.beust.klaxon.Klaxon
 
-
 class CacheInitializer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val INGREDIENTSURL = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list"
-        // Ingredients-Request gleich beim Start absetzen
+        val ingredientsUrl = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list"
         val requestQueue = Volley.newRequestQueue(this)
         val request = StringRequest(
-            Request.Method.GET, INGREDIENTSURL,
+            Request.Method.GET, ingredientsUrl,
             Response.Listener<String> { response ->
                 val ingredients = Klaxon().parse<Ingredients>(response)
                 RemoteDataCache.addIngredientsList(ingredients!!.drinks)
