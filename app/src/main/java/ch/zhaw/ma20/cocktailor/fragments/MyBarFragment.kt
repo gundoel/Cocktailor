@@ -15,9 +15,10 @@ import com.example.cocktailor.R
 import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 class MyBarFragment : Fragment() {
+    var emptyBarString = "The bar is empty!"
     var adapterArrayList: ArrayAdapter<String>? = null
     var adapterBarList: MyBarListAdapter? = null
-    var myBarList: MutableList<IngredientListItem>? = mutableListOf(IngredientListItem("empty List"))
+    var myBarList: MutableList<IngredientListItem>? = mutableListOf(IngredientListItem(emptyBarString))
     var searchList = arrayListOf<String>()
 
     override fun onCreateView(
@@ -38,7 +39,11 @@ class MyBarFragment : Fragment() {
         layout.listViewMyBarSearch.setOnItemClickListener { parent, view, position, id ->
             val stringElement: String? = adapterArrayList!!.getItem(position)
             val newIngredientListItem = IngredientListItem(stringElement)
-            if (stringElement != null && !(checkDublicateMyBarlist(myBarList, stringElement))) myBarList?.add(newIngredientListItem)
+            if (stringElement != null && !(checkDuplicateMyBarList(myBarList, stringElement))) {
+                if (checkIfBarIsEmpty(myBarList)) myBarList?.set(0, newIngredientListItem)
+                else myBarList?.add(newIngredientListItem)
+            }
+            myBarList?.sortBy { ingredientListItem -> ingredientListItem.strIngredient1 }
             adapterBarList?.notifyDataSetChanged()
         }
 
@@ -66,7 +71,10 @@ class MyBarFragment : Fragment() {
         return layout
     }
 
-    fun checkDublicateMyBarlist (myBarList: MutableList<IngredientListItem>?, stringElement: String) : Boolean {
+    private fun checkDuplicateMyBarList(
+        myBarList: MutableList<IngredientListItem>?,
+        stringElement: String
+    ): Boolean {
         var counter = 0
         var isDouble = false
         if (myBarList != null) {
@@ -76,5 +84,11 @@ class MyBarFragment : Fragment() {
             if (counter > 0) isDouble = true
         }
         return isDouble
+    }
+
+    private fun checkIfBarIsEmpty(myBarList: MutableList<IngredientListItem>?): Boolean {
+        var isBarEmpty = false
+        if (myBarList?.get(0)?.strIngredient1 == emptyBarString) isBarEmpty = true
+        return isBarEmpty
     }
 }
