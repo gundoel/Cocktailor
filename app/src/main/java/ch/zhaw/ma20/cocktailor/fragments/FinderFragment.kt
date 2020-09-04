@@ -32,7 +32,8 @@ class FinderFragment : Fragment() {
         var layout = inflater.inflate(R.layout.fragment_finder, container, false)
         val selectedItems = RemoteDataCache?.selectedItemsSet
         adapter = IngredientsSearchAdapter(
-            RemoteDataCache!!.ingredientsList)
+            RemoteDataCache!!.ingredientsList
+        )
         layout.ingredients_list.adapter = adapter
 
         // filter list items by to selected items only
@@ -43,12 +44,14 @@ class FinderFragment : Fragment() {
                         selectedItems.contains(it.strIngredient1.toString())
                     }
                 adapter = IngredientsSearchAdapter(
-                    reducedList as MutableList<IngredientListItem>)
+                    reducedList as MutableList<IngredientListItem>
+                )
 
             } else {
                 // set default adapter
                 adapter = IngredientsSearchAdapter(
-                    RemoteDataCache!!.ingredientsList)
+                    RemoteDataCache!!.ingredientsList
+                )
             }
             layout.ingredients_list.adapter = adapter
             adapter!!.notifyDataSetChanged()
@@ -67,14 +70,16 @@ class FinderFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.isEmpty()) {
                     adapter = IngredientsSearchAdapter(
-                        RemoteDataCache!!.ingredientsList)
+                        RemoteDataCache!!.ingredientsList
+                    )
                 } else {
                     val reducedList =
                         RemoteDataCache!!.ingredientsList.filter {
                             it.strIngredient1.toUpperCase().contains(s.toString().toUpperCase())
                         }
                     adapter = IngredientsSearchAdapter(
-                        reducedList as MutableList<IngredientListItem>)
+                        reducedList as MutableList<IngredientListItem>
+                    )
                     ingredients_list.adapter = adapter
                     adapter!!.notifyDataSetChanged()
                 }
@@ -109,7 +114,7 @@ class FinderFragment : Fragment() {
                     //TODO display results in new fragment
                     if (resultCart.pendingRequests.decrementAndGet() == 0) {
                         if (connector == Connector.OR) {
-                            RemoteDataCache.addLastCocktailSearchResultList(resultCart.getCocktailsAND())
+                            RemoteDataCache.addLastCocktailSearchResultList(resultCart.getCocktailsOR())
                             for (item in resultCart.getCocktailsOR()) {
                                 Log.i(
                                     "COCKTAILRESULT",
@@ -129,7 +134,9 @@ class FinderFragment : Fragment() {
                         }
 
                         var cocktailSearchResultFragment = CocktailSearchResultFragment()
-                        (activity as MainActivity?)?.makeCurrentFragment(cocktailSearchResultFragment)
+                        (activity as MainActivity?)?.makeCurrentFragment(
+                            cocktailSearchResultFragment
+                        )
                     }
                 }
             }

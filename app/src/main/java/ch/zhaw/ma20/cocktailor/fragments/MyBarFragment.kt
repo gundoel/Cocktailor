@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.adapters.MyBarListAdapter
 import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import com.example.cocktailor.R
+import ch.zhaw.ma20.cocktailor.R
 import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 class MyBarFragment : Fragment() {
@@ -38,10 +38,14 @@ class MyBarFragment : Fragment() {
         layout.listViewMyBarSearch.adapter = adapterArrayList
         layout.listViewMyBarSearch.setOnItemClickListener { parent, view, position, id ->
             val stringElement: String? = adapterArrayList!!.getItem(position)
-            val newIngredientListItem = IngredientListItem(stringElement)
+            val newIngredientListItem = stringElement?.let { IngredientListItem(it) }
             if (stringElement != null && !(checkDuplicateMyBarList(myBarList, stringElement))) {
-                if (checkIfBarIsEmpty(myBarList)) myBarList?.set(0, newIngredientListItem)
-                else myBarList?.add(newIngredientListItem)
+                if (checkIfBarIsEmpty(myBarList)) newIngredientListItem?.let {
+                    myBarList?.set(0,
+                        it
+                    )
+                }
+                else newIngredientListItem?.let { myBarList?.add(it) }
             }
             myBarList?.sortBy { ingredientListItem -> ingredientListItem.strIngredient1 }
             adapterBarList?.notifyDataSetChanged()
