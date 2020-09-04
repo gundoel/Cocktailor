@@ -9,7 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.Toast
 import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import com.example.cocktailor.R
+import ch.zhaw.ma20.cocktailor.R
 import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
 class IngredientsSearchAdapter(

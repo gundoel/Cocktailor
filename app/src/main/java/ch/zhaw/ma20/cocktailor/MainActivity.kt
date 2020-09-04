@@ -1,28 +1,15 @@
 package ch.zhaw.ma20.cocktailor
 
 import android.os.Bundle
-import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.fragments.FavoritesFragment
 import ch.zhaw.ma20.cocktailor.fragments.FinderFragment
 import ch.zhaw.ma20.cocktailor.fragments.MyBarFragment
-import ch.zhaw.ma20.cocktailor.model.IngredientListItem
-import ch.zhaw.ma20.cocktailor.model.Ingredients
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.android.volley.Request
-import com.android.volley.Response
-import com.beust.klaxon.Klaxon
-import com.example.cocktailor.R
+import ch.zhaw.ma20.cocktailor.R
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.android.synthetic.main.fragment_finder.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

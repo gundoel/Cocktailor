@@ -1,36 +1,30 @@
 package ch.zhaw.ma20.cocktailor
 
+import APIController
+import ServiceVolley
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import ch.zhaw.ma20.cocktailor.model.Ingredients
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import com.android.volley.Request
-import com.android.volley.Response
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.beust.klaxon.Klaxon
 
 class CacheInitializer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val ingredientsUrl = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list"
-        val requestQueue = Volley.newRequestQueue(this)
-        val request = StringRequest(
-            Request.Method.GET, ingredientsUrl,
-            Response.Listener<String> { response ->
-                val ingredients = Klaxon().parse<Ingredients>(response)
-                RemoteDataCache.addIngredientsList(ingredients!!.drinks)
-                startMainActivity()
-            },
-            Response.ErrorListener {
-                Log.e("VOLLEY ERROR:", it.toString())
-            })
-        requestQueue.add(request)
+
+        val service = ServiceVolley()
+        val apiController = APIController(service)
+        val path = "list.php?i=list"
+
+        apiController.get(path) { response ->
+            val ingredients = response?.let { Klaxon().parse<Ingredients>(it) }
+            RemoteDataCache.addIngredientsList(ingredients!!.drinks)
+            startMainActivity()
+        }
     }
 
-    private fun startMainActivity() {
+    fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

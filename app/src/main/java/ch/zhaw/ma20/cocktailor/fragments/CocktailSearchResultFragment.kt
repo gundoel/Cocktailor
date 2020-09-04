@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.R
 
-class FavoritesFragment : Fragment() {
+class CocktailSearchResultFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
