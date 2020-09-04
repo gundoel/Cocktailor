@@ -1,24 +1,22 @@
 package ch.zhaw.ma20.cocktailor.adapters
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Toast
+import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.R
 import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
 class IngredientsSearchAdapter(
-    var ingredients: MutableList<IngredientListItem>,
-    val context: Context
+    var ingredients: MutableList<IngredientListItem>
 
 ) : BaseAdapter() {
-    var layoutInflater: LayoutInflater = LayoutInflater.from(context)
-    var selectedItems = RemoteDataCache.selectedItems
+    var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
+    var selectedItems = RemoteDataCache.selectedItemsSet
 
     override fun getCount(): Int {
         return ingredients.size

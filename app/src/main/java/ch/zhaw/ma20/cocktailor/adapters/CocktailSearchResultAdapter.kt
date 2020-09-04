@@ -1,25 +1,19 @@
 package ch.zhaw.ma20.cocktailor.adapters
 
-import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.Toast
-import ch.zhaw.ma20.cocktailor.model.IngredientListItem
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import kotlinx.android.synthetic.main.cocktail_selectable_item.view.*
-import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
-class CocktailSearchAdapter(
-    var cocktails: MutableList<Cocktail>,
-    val context: Context
+class CocktailSearchResultAdapter(
+    var cocktails: MutableList<Cocktail>
 
 ) : BaseAdapter() {
-    var layoutInflater: LayoutInflater = LayoutInflater.from(context)
+    var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
 
     override fun getCount(): Int {
         return cocktails.size
@@ -47,6 +41,8 @@ class CocktailSearchAdapter(
         val entry = getItem(index)
         view.cocktailThumb.tooltipText = entry.strDrinkThumb
         view.cocktailName.text = entry.strDrink
+        view.missingIngredients.text = entry.missingIngredients.toString()
+        view.availableIngredients.text = entry.availableIngredients.toString()
         return view
     }
 }

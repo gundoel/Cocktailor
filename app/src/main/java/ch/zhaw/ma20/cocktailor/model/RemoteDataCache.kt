@@ -2,8 +2,8 @@ package ch.zhaw.ma20.cocktailor.model
 
 object RemoteDataCache {
     var ingredientsList = mutableListOf<IngredientListItem>()
-    var cocktailList = mutableListOf<Cocktail>()
-    val selectedItems = mutableSetOf<String>()
+    val selectedItemsSet = mutableSetOf<String>()
+    var lastCocktailSearchResultList = mutableListOf<Cocktail>()
 
     fun addIngredientsList(list : MutableList<IngredientListItem>) {
         // sort alphabetically
@@ -11,7 +11,7 @@ object RemoteDataCache {
         ingredientsList = list;
     }
 
-    fun addCocktailList(list : MutableList<Cocktail>) {
-        cocktailList = list;
+    fun addLastCocktailSearchResultList(list : MutableList<Cocktail>) {
+        lastCocktailSearchResultList = list;
     }
 }

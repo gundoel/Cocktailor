@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.Cocktailor
+import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.model.*
@@ -29,11 +30,9 @@ class FinderFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var layout = inflater.inflate(R.layout.fragment_finder, container, false)
-        val selectedItems = RemoteDataCache?.selectedItems
+        val selectedItems = RemoteDataCache?.selectedItemsSet
         adapter = IngredientsSearchAdapter(
-            RemoteDataCache!!.ingredientsList,
-            Cocktailor.applicationContext()
-        )
+            RemoteDataCache!!.ingredientsList)
         layout.ingredients_list.adapter = adapter
 
         // filter list items by to selected items only
@@ -44,16 +43,12 @@ class FinderFragment : Fragment() {
                         selectedItems.contains(it.strIngredient1.toString())
                     }
                 adapter = IngredientsSearchAdapter(
-                    reducedList as MutableList<IngredientListItem>,
-                    Cocktailor.applicationContext()
-                )
+                    reducedList as MutableList<IngredientListItem>)
 
             } else {
                 // set default adapter
                 adapter = IngredientsSearchAdapter(
-                    RemoteDataCache!!.ingredientsList,
-                    requireContext()
-                )
+                    RemoteDataCache!!.ingredientsList)
             }
             layout.ingredients_list.adapter = adapter
             adapter!!.notifyDataSetChanged()
@@ -72,18 +67,14 @@ class FinderFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.isEmpty()) {
                     adapter = IngredientsSearchAdapter(
-                        RemoteDataCache!!.ingredientsList,
-                        requireContext()
-                    )
+                        RemoteDataCache!!.ingredientsList)
                 } else {
                     val reducedList =
                         RemoteDataCache!!.ingredientsList.filter {
                             it.strIngredient1.toUpperCase().contains(s.toString().toUpperCase())
                         }
                     adapter = IngredientsSearchAdapter(
-                        reducedList as MutableList<IngredientListItem>,
-                        requireContext()
-                    )
+                        reducedList as MutableList<IngredientListItem>)
                     ingredients_list.adapter = adapter
                     adapter!!.notifyDataSetChanged()
                 }
@@ -99,7 +90,7 @@ class FinderFragment : Fragment() {
             val service = ServiceVolley()
             val apiController = APIController(service)
             val resultCart = CocktailSearchResultCart(AtomicInteger(selectedItems.size), false)
-            for ((index, item) in selectedItems.withIndex()) {
+            for (item in selectedItems) {
                 val ingredient = item
                 val path = "filter.php?i=$ingredient"
                 val result = mutableMapOf<String, Cocktail>()
@@ -118,6 +109,7 @@ class FinderFragment : Fragment() {
                     //TODO display results in new fragment
                     if (resultCart.pendingRequests.decrementAndGet() == 0) {
                         if (connector == Connector.OR) {
+                            RemoteDataCache.addLastCocktailSearchResultList(resultCart.getCocktailsAND())
                             for (item in resultCart.getCocktailsOR()) {
                                 Log.i(
                                     "COCKTAILRESULT",
@@ -127,6 +119,7 @@ class FinderFragment : Fragment() {
                         }
                         // AND
                         else {
+                            RemoteDataCache.addLastCocktailSearchResultList(resultCart.getCocktailsAND())
                             for (item in resultCart.getCocktailsAND()) {
                                 Log.i(
                                     "COCKTAILRESULT",
@@ -134,6 +127,9 @@ class FinderFragment : Fragment() {
                                 )
                             }
                         }
+
+                        var cocktailSearchResultFragment = CocktailSearchResultFragment()
+                        (activity as MainActivity?)?.makeCurrentFragment(cocktailSearchResultFragment)
                     }
                 }
             }
