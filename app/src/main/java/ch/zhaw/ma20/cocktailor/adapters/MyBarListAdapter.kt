@@ -11,7 +11,7 @@ import kotlinx.android.synthetic.main.ingredient_item.view.*
 import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
 class MyBarListAdapter(
-    var ingredientsList: MutableList<IngredientListItem>,
+    var myBarList: MutableList<IngredientListItem>,
     val context: Context
 ) : BaseAdapter() {
 
@@ -19,16 +19,16 @@ class MyBarListAdapter(
 
     init {
         // sort alphabetically
-        ingredientsList.sortBy { it.strIngredient1.toString() }
+        myBarList.sortBy { ingredientListItem -> ingredientListItem.strIngredient1 }
         layoutInflater = LayoutInflater.from(context)
     }
 
     override fun getCount(): Int { //number of elements to display
-        return ingredientsList.size
+        return myBarList.size
     }
 
     override fun getItem(index: Int): IngredientListItem { //item at index
-        return ingredientsList.get(index)
+        return myBarList.get(index)
     }
 
     override fun getItemId(index: Int): Long { //itemId for
