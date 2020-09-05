@@ -8,10 +8,12 @@ import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.fragments.FavoritesFragment
 import ch.zhaw.ma20.cocktailor.fragments.FinderFragment
 import ch.zhaw.ma20.cocktailor.fragments.MyBarFragment
-import ch.zhaw.ma20.cocktailor.R
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
+    var cacheTearDown : CacheTearDown? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         var finderFragment = FinderFragment()
         var favoritesFragment = FavoritesFragment()
         var myBarFragment = MyBarFragment()
+        cacheTearDown = CacheTearDown()
 
         makeCurrentFragment(finderFragment)
 
@@ -37,8 +40,6 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -62,5 +63,10 @@ class MainActivity : AppCompatActivity() {
             replace(R.id.fl_wrapper, fragment)
             commit()
         }
+    }
+
+    override fun onPause(){
+        super.onPause()
+        cacheTearDown?.persistList(RemoteDataCache.myBarList, RemoteDataCache.nameMyBarList)
     }
 }

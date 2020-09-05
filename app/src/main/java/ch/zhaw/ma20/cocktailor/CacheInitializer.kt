@@ -2,12 +2,16 @@ package ch.zhaw.ma20.cocktailor
 
 import APIController
 import ServiceVolley
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import ch.zhaw.ma20.cocktailor.model.Ingredients
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.nameMyBarList
 import com.beust.klaxon.Klaxon
+import com.google.gson.reflect.TypeToken
 
 class CacheInitializer : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,6 +24,7 @@ class CacheInitializer : AppCompatActivity() {
         apiController.get(path) { response ->
             val ingredients = response?.let { Klaxon().parse<Ingredients>(it) }
             RemoteDataCache.addIngredientsList(ingredients!!.drinks)
+            readIngredientList(nameMyBarList)?.let { RemoteDataCache.addMyBarList(it) }
             startMainActivity()
         }
     }
@@ -30,4 +35,10 @@ class CacheInitializer : AppCompatActivity() {
         finish()
     }
 
+    private fun readIngredientList(listName : String) : MutableList<IngredientListItem>? {
+        val settings = Cocktailor.applicationContext().getSharedPreferences(listName, Context.MODE_PRIVATE)
+        val jsonString : String? = settings.getString(listName, "")
+        val ingredientListType = object : TypeToken<MutableList<IngredientListItem>>() {}.type
+        return RemoteDataCache.gson.fromJson(jsonString, ingredientListType)
+    }
 }

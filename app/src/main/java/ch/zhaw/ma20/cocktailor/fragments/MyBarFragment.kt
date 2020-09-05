@@ -12,13 +12,14 @@ import ch.zhaw.ma20.cocktailor.adapters.MyBarListAdapter
 import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.R
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.emptyBarString
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.myBarList
 import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 class MyBarFragment : Fragment() {
-    var emptyBarString = "The bar is empty!"
+
     var adapterArrayList: ArrayAdapter<String>? = null
     var adapterBarList: MyBarListAdapter? = null
-    var myBarList: MutableList<IngredientListItem>? = mutableListOf(IngredientListItem(emptyBarString))
     var searchList = arrayListOf<String>()
 
     override fun onCreateView(
