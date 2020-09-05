@@ -9,6 +9,7 @@ import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.Recipe
 import ch.zhaw.ma20.cocktailor.model.RecipeIngredientItem
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.cocktail_selectable_item.view.*
 import kotlinx.android.synthetic.main.recipe_ingredient_item.view.*
 
@@ -44,6 +45,9 @@ class RecipeIngredientsAdapter(
         val entry = getItem(index)
         view.recipeMeasurement.text = entry.measure
         view.recipeIngredient.text = entry.ingredient
+        /*if (RemoteDataCache.isIngredientInMyBar(entry.ingredient.toString())) {
+            view.recipeIngredientInMyBar.setBackgroundResource(R.drawable.ic_baseline_done_24)
+        }*/
         return view
     }
 }

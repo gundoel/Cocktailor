@@ -12,7 +12,6 @@
         android:id="@+id/findCocktailsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
         android:fontFamily="@font/euphoria_script"
         android:text="@string/findCocktails"
         android:textSize="36sp"

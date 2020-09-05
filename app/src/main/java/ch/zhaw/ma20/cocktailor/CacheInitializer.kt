@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import ch.zhaw.ma20.cocktailor.model.IngredientListItem
 import ch.zhaw.ma20.cocktailor.model.Ingredients
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.gson
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.nameMyBarList
 import com.beust.klaxon.Klaxon
 import com.google.gson.reflect.TypeToken

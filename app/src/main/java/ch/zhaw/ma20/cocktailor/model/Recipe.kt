@@ -1,8 +1,8 @@
 package ch.zhaw.ma20.cocktailor.model
 
 class Recipe(
-    val idDrink: String?,
-    val strDrink: String?,
+    val idDrink: String,
+    val strDrink: String,
     val strAlcoholic: String?,
     val strGlass: String?,
     val strInstructions: String?,
@@ -41,20 +41,20 @@ class Recipe(
     fun getIngredientsList() : MutableList<RecipeIngredientItem> {
         val ingredientsList = mutableListOf<RecipeIngredientItem>()
         if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient1,strMeasure1))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient2,strMeasure2))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient3,strMeasure3))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient4,strMeasure4))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient5,strMeasure5))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient6,strMeasure6))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient7,strMeasure7))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient8,strMeasure8))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient9,strMeasure9))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient10,strMeasure10))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient11,strMeasure11))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient12,strMeasure12))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient13,strMeasure13))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient14,strMeasure14))
-        if (strIngredient1 != null) ingredientsList.add(RecipeIngredientItem(strIngredient15,strMeasure15))
+        if (strIngredient2 != null) ingredientsList.add(RecipeIngredientItem(strIngredient2,strMeasure2))
+        if (strIngredient3 != null) ingredientsList.add(RecipeIngredientItem(strIngredient3,strMeasure3))
+        if (strIngredient4 != null) ingredientsList.add(RecipeIngredientItem(strIngredient4,strMeasure4))
+        if (strIngredient5 != null) ingredientsList.add(RecipeIngredientItem(strIngredient5,strMeasure5))
+        if (strIngredient6 != null) ingredientsList.add(RecipeIngredientItem(strIngredient6,strMeasure6))
+        if (strIngredient7 != null) ingredientsList.add(RecipeIngredientItem(strIngredient7,strMeasure7))
+        if (strIngredient8 != null) ingredientsList.add(RecipeIngredientItem(strIngredient8,strMeasure8))
+        if (strIngredient9 != null) ingredientsList.add(RecipeIngredientItem(strIngredient9,strMeasure9))
+        if (strIngredient10 != null) ingredientsList.add(RecipeIngredientItem(strIngredient10,strMeasure10))
+        if (strIngredient11 != null) ingredientsList.add(RecipeIngredientItem(strIngredient11,strMeasure11))
+        if (strIngredient12 != null) ingredientsList.add(RecipeIngredientItem(strIngredient12,strMeasure12))
+        if (strIngredient13 != null) ingredientsList.add(RecipeIngredientItem(strIngredient13,strMeasure13))
+        if (strIngredient14 != null) ingredientsList.add(RecipeIngredientItem(strIngredient14,strMeasure14))
+        if (strIngredient15 != null) ingredientsList.add(RecipeIngredientItem(strIngredient15,strMeasure15))
         return ingredientsList
     }
 }

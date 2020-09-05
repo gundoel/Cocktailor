@@ -112,6 +112,7 @@ class FinderFragment : Fragment() {
                     // all Requests done
                     //TODO Error handling if request fails
                     //TODO display results in new fragment
+                    //TODO load recipe to find number of missing ingredients
                     if (resultCart.pendingRequests.decrementAndGet() == 0) {
                         if (connector == Connector.OR) {
                             RemoteDataCache.addLastCocktailSearchResultList(resultCart.getCocktailsOR())

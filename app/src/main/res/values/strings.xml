@@ -110,4 +110,6 @@
     <string name="textview">TextView</string>
     <string name="serch_results">Search results</string>
     <string name="search_results">Search results</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="instructions">Instructions</string>
 </resources>
