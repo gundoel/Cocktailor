@@ -5,13 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import ch.zhaw.ma20.cocktailor.model.IngredientListItem
+import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.R
 import kotlinx.android.synthetic.main.ingredient_item.view.*
-import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
 class MyBarListAdapter(
-    var myBarList: MutableList<IngredientListItem>,
+    var myBarList: MutableList<Ingredient>,
     val context: Context
 ) : BaseAdapter() {
 
@@ -27,7 +26,7 @@ class MyBarListAdapter(
         return myBarList.size
     }
 
-    override fun getItem(index: Int): IngredientListItem { //item at index
+    override fun getItem(index: Int): Ingredient { //item at index
         return myBarList.get(index)
     }
 

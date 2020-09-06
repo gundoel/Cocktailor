@@ -6,10 +6,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import ch.zhaw.ma20.cocktailor.model.IngredientListItem
+import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.Ingredients
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.gson
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.nameMyBarList
 import com.beust.klaxon.Klaxon
 import com.google.gson.reflect.TypeToken
@@ -36,10 +35,10 @@ class CacheInitializer : AppCompatActivity() {
         finish()
     }
 
-    private fun readIngredientList(listName : String) : MutableList<IngredientListItem>? {
+    private fun readIngredientList(listName : String) : MutableList<Ingredient>? {
         val settings = Cocktailor.applicationContext().getSharedPreferences(listName, Context.MODE_PRIVATE)
         val jsonString : String? = settings.getString(listName, "")
-        val ingredientListType = object : TypeToken<MutableList<IngredientListItem>>() {}.type
+        val ingredientListType = object : TypeToken<MutableList<Ingredient>>() {}.type
         return RemoteDataCache.gson.fromJson(jsonString, ingredientListType)
     }
 }

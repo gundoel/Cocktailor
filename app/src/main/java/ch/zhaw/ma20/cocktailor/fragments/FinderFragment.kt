@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
@@ -19,7 +18,6 @@ import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.fragment_finder.*
 import kotlinx.android.synthetic.main.fragment_finder.view.*
 import java.util.concurrent.atomic.AtomicInteger
-
 
 class FinderFragment : Fragment() {
     var adapter: IngredientsSearchAdapter? = null;
@@ -44,7 +42,7 @@ class FinderFragment : Fragment() {
                         selectedItems.contains(it.strIngredient1.toString())
                     }
                 adapter = IngredientsSearchAdapter(
-                    reducedList as MutableList<IngredientListItem>
+                    reducedList as MutableList<Ingredient>
                 )
 
             } else {
@@ -78,7 +76,7 @@ class FinderFragment : Fragment() {
                             it.strIngredient1.toUpperCase().contains(s.toString().toUpperCase())
                         }
                     adapter = IngredientsSearchAdapter(
-                        reducedList as MutableList<IngredientListItem>
+                        reducedList as MutableList<Ingredient>
                     )
                     ingredients_list.adapter = adapter
                     adapter!!.notifyDataSetChanged()
@@ -94,7 +92,8 @@ class FinderFragment : Fragment() {
                 if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
             val service = ServiceVolley()
             val apiController = APIController(service)
-            val resultCart = CocktailSearchResultCart(AtomicInteger(selectedItems.size), false)
+            val cocktailResultCart =
+                CocktailSearchResultCart(AtomicInteger(selectedItems.size), false)
             for (item in selectedItems) {
                 val ingredient = item
                 val path = "filter.php?i=$ingredient"
@@ -105,39 +104,63 @@ class FinderFragment : Fragment() {
                         Klaxon().parse<CocktailSearchResult>(it)
                     }
                     if (cocktails != null) {
-                        resultCart.addCocktailMap(
+                        cocktailResultCart.addRequestResult(
                             cocktails.drinks.map { it.idDrink to it }.toMap().toMutableMap()
                         )
                     }
-                    // all Requests done
+                    // all cocktail requests done
                     //TODO Error handling if request fails
-                    //TODO display results in new fragment
-                    //TODO load recipe to find number of missing ingredients
-                    if (resultCart.pendingRequests.decrementAndGet() == 0) {
+                    if (cocktailResultCart.pendingRequests.decrementAndGet() == 0) {
+                        var cocktailList = mutableListOf<Cocktail>()
                         if (connector == Connector.OR) {
-                            RemoteDataCache.addLastCocktailSearchResultList(resultCart.getCocktailsOR())
-                            for (item in resultCart.getCocktailsOR()) {
-                                Log.i(
-                                    "COCKTAILRESULT",
-                                    item.idDrink + " " + item.strDrink + " " + item.strDrinkThumb
-                                )
-                            }
+                            cocktailList.addAll(cocktailResultCart.getCocktailsOR())
                         }
                         // AND
                         else {
-                            RemoteDataCache.addLastCocktailSearchResultList(resultCart.getCocktailsAND())
-                            for (item in resultCart.getCocktailsAND()) {
-                                Log.i(
-                                    "COCKTAILRESULT",
-                                    item.idDrink + " " + item.strDrink + " " + item.strDrinkThumb
-                                )
-                            }
+                            cocktailList.addAll(cocktailResultCart.getCocktailsAND())
                         }
 
-                        var cocktailSearchResultFragment = CocktailSearchResultFragment()
-                        (activity as MainActivity?)?.makeCurrentFragment(
-                            cocktailSearchResultFragment
-                        )
+                        // get recipes for results in order to get missing ingredients
+                        val recipeResultCart =
+                            RecipeSearchResultCart(AtomicInteger(cocktailList.size), false)
+                        for (item in cocktailList) {
+                            val cocktailId = item.idDrink
+                            val path = "lookup.php?i=$cocktailId"
+                            // get recipes
+                            apiController.get(path) { response ->
+                                val recipe = response?.let {
+                                    Klaxon().parse<RecipeSearchResult>(it)
+                                }
+                                if (recipe != null) {
+                                    // recipe is always only 1 (unique id)
+                                    recipeResultCart.addQueryResult(recipe.drinks[0])
+                                    // got all recipes -> get missing ingredients and cache recipe
+                                    if (recipeResultCart.pendingRequests.decrementAndGet() == 0) {
+                                        // cache recipes
+                                        RemoteDataCache.addLastRecipeSearchResult(recipeResultCart.allRequestResults)
+                                        // compare recipe with my bar
+                                        var availableIngredients : Int = 0
+                                        var recipe = RemoteDataCache.lastRecipeSearchResultMap.get(item.idDrink)
+                                        var ingredientsList = mutableListOf<String?>()
+                                        ingredientsList = (recipe?.getIngredientsList()?.map { it.ingredient })!!.toMutableList()
+                                        availableIngredients = RemoteDataCache.getNumberOfGivenIngredientsInMyBar(ingredientsList)
+                                        item.availableIngredients = availableIngredients
+                                        item.missingIngredients = recipe?.getIngredientsList()!!.size - availableIngredients
+                                        // cache cocktails
+                                        RemoteDataCache.addLastCocktailSearchResult(cocktailList)
+                                        // display results in fragment
+                                        var cocktailSearchResultFragment = CocktailSearchResultFragment()
+                                        (activity as MainActivity?)?.makeCurrentFragment(
+                                            cocktailSearchResultFragment
+                                        )
+                                    }
+                                }
+                            }
+                            Log.i(
+                                "COCKTAILRESULT",
+                                item.idDrink + " " + item.strDrink + " " + item.strDrinkThumb
+                            )
+                        }
                     }
                 }
             }

@@ -27,34 +27,41 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var layout = inflater.inflate(R.layout.fragment_recipe, container, false)
-        // TODO load recipe from cache if available
-        apiController.get(path) { response ->
-            val recipe = response?.let {
-                Klaxon().parse<RecipeSearchResult>(it)
-            }
-            if (recipe != null) {
-                // recipe is always only 1 (id is unique)
-                var currentRecipe: Recipe = recipe.drinks[0];
-                // set infos
-                layout.recipeCocktailName.text = currentRecipe.strDrink
-                layout.recipeInstructions.text = currentRecipe.strInstructions
-                // ingredients list
-                adapter = RecipeIngredientsAdapter(currentRecipe.getIngredientsList())
-                layout.recipeIngredients.adapter = adapter
-                // initialize like button
-                layout.likeButton.isChecked = RemoteDataCache.isRecipeInFavorites(currentRecipe)
-                // like button action
-                layout.likeButton.setOnClickListener() {
-                    if (layout.likeButton.isChecked) {
-                        RemoteDataCache.addRecipeToFavorites(currentRecipe)
-                    } else {
-                        RemoteDataCache.removeRecipeFromFavorites(currentRecipe)
-                    }
+        var recipe : Recipe = RemoteDataCache.lastRecipeSearchResultMap.get(cocktailId)!!
+        /* load recipe from cache (available if recipe was cached during search.
+        If recipe is called from favorites, recipe might not be in cache and needs therefore to be reloaded          */
+        if(recipe == null) {
+            apiController.get(path) { response ->
+                val recipeRemote = response?.let {
+                    Klaxon().parse<RecipeSearchResult>(it)
+                }
+                if (recipeRemote != null) {
+                    recipe = recipeRemote.drinks[0];
                 }
             }
         }
+        return getView(container, inflater, recipe)
+    }
 
+    fun getView(container: ViewGroup?, inflater : LayoutInflater, recipe: Recipe) : View {
+        var layout = inflater.inflate(R.layout.fragment_recipe, container, false)
+        // recipe is always only 1 (id is unique)
+        // set infos
+        layout.recipeCocktailName.text = recipe.strDrink
+        layout.recipeInstructions.text = recipe.strInstructions
+        // ingredients list
+        adapter = RecipeIngredientsAdapter(recipe.getIngredientsList())
+        layout.recipeIngredients.adapter = adapter
+        // initialize like button
+        layout.likeButton.isChecked = RemoteDataCache.isRecipeInFavorites(recipe)
+        // like button action
+        layout.likeButton.setOnClickListener() {
+            if (layout.likeButton.isChecked) {
+                RemoteDataCache.addRecipeToFavorites(recipe)
+            } else {
+                RemoteDataCache.removeRecipeFromFavorites(recipe)
+            }
+        }
         return layout
     }
 }

@@ -6,15 +6,11 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
-import ch.zhaw.ma20.cocktailor.model.Cocktail
-import ch.zhaw.ma20.cocktailor.model.Recipe
-import ch.zhaw.ma20.cocktailor.model.RecipeIngredientItem
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import kotlinx.android.synthetic.main.cocktail_selectable_item.view.*
+import ch.zhaw.ma20.cocktailor.model.RecipeIngredient
 import kotlinx.android.synthetic.main.recipe_ingredient_item.view.*
 
 class RecipeIngredientsAdapter(
-    var recipe: MutableList<RecipeIngredientItem>
+    var recipe: MutableList<RecipeIngredient>
 
 ) : BaseAdapter() {
     var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
@@ -23,7 +19,7 @@ class RecipeIngredientsAdapter(
         return recipe.size
     }
 
-    override fun getItem(index: Int): RecipeIngredientItem {
+    override fun getItem(index: Int): RecipeIngredient {
         return recipe.get(index)
     }
 

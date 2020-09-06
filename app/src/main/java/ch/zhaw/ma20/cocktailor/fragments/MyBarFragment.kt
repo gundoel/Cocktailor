@@ -9,7 +9,7 @@ import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.adapters.MyBarListAdapter
-import ch.zhaw.ma20.cocktailor.model.IngredientListItem
+import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.emptyBarString
@@ -39,7 +39,7 @@ class MyBarFragment : Fragment() {
         layout.listViewMyBarSearch.adapter = adapterArrayList
         layout.listViewMyBarSearch.setOnItemClickListener { parent, view, position, id ->
             val stringElement: String? = adapterArrayList!!.getItem(position)
-            val newIngredientListItem = stringElement?.let { IngredientListItem(it) }
+            val newIngredientListItem = stringElement?.let { Ingredient(it) }
             if (stringElement != null && !(checkDuplicateMyBarList(myBarList, stringElement))) {
                 if (checkIfBarIsEmpty(myBarList)) newIngredientListItem?.let {
                     myBarList?.set(0,
@@ -77,7 +77,7 @@ class MyBarFragment : Fragment() {
     }
 
     private fun checkDuplicateMyBarList(
-        myBarList: MutableList<IngredientListItem>?,
+        myBarList: MutableList<Ingredient>?,
         stringElement: String
     ): Boolean {
         var counter = 0
@@ -91,7 +91,7 @@ class MyBarFragment : Fragment() {
         return isDouble
     }
 
-    private fun checkIfBarIsEmpty(myBarList: MutableList<IngredientListItem>?): Boolean {
+    private fun checkIfBarIsEmpty(myBarList: MutableList<Ingredient>?): Boolean {
         var isBarEmpty = false
         if (myBarList?.get(0)?.strIngredient1 == emptyBarString) isBarEmpty = true
         return isBarEmpty

@@ -1,30 +1,36 @@
 package ch.zhaw.ma20.cocktailor.model
 
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.gson
 import com.google.gson.Gson
 
 object RemoteDataCache {
-    var ingredientsList = mutableListOf<IngredientListItem>()
+    var ingredientsList = mutableListOf<Ingredient>()
     val selectedItemsSet = mutableSetOf<String>()
     var lastCocktailSearchResultList = mutableListOf<Cocktail>()
+    var lastRecipeSearchResultMap = mutableMapOf<String, Recipe>()
     var emptyBarString = "The bar is empty!"
-    var myBarList: MutableList<IngredientListItem>? = mutableListOf(IngredientListItem(emptyBarString))
+    var myBarList: MutableList<Ingredient> = mutableListOf(Ingredient(emptyBarString))
     var nameMyBarList = "MyBarList"
     val gson = Gson()
     val favoriteCocktailsSet = mutableSetOf<String>()
 
-    fun addIngredientsList(list : MutableList<IngredientListItem>) {
+    fun addIngredientsList(list : MutableList<Ingredient>) {
         // sort alphabetically
         list.sortBy { it.strIngredient1.toString() }
         ingredientsList = list;
     }
 
-    fun addLastCocktailSearchResultList(list : MutableList<Cocktail>) {
+    fun addLastCocktailSearchResult(list : MutableList<Cocktail>) {
         lastCocktailSearchResultList = list;
     }
 
-    fun addMyBarList(list : MutableList<IngredientListItem>) {
-        if (list == null) myBarList?.add(IngredientListItem(emptyBarString))
+    fun addLastRecipeSearchResult(list : MutableList<Recipe>) {
+        for(item in list) {
+            lastRecipeSearchResultMap.put(item.idDrink, item)
+        }
+    }
+
+    fun addMyBarList(list : MutableList<Ingredient>) {
+        if (list == null) myBarList?.add(Ingredient(emptyBarString))
         else myBarList = list
     }
 
@@ -39,13 +45,13 @@ object RemoteDataCache {
     fun isRecipeInFavorites(recipe: Recipe) : Boolean {
         return favoriteCocktailsSet.contains(recipe.idDrink)
     }
-/*
+
     fun isIngredientInMyBar(ingredientName : String) : Boolean {
         return myBarList.any{ingredientListItem -> ingredientListItem.strIngredient1  == ingredientName}
     }
 
-    fun getNumberOfGivenIngredientsInMyBar(ingredientsList : MutableList<String>) : Int {
+    fun getNumberOfGivenIngredientsInMyBar(ingredientsList: MutableList<String?>) : Int {
         val filteredList= myBarList.filter {ingredientListItem ->   ingredientsList.contains(ingredientListItem.strIngredient1)}
         return filteredList.size
-    }*/
+    }
 }
