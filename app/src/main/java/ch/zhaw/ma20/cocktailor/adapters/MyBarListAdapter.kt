@@ -52,7 +52,7 @@ class MyBarListAdapter(
         // delete item onclick (quickfix)
         // TODO implement button
         // TODO displaying bar empty text not working if all items are deleted
-        view.setOnClickListener() {
+        view.deleteItemButton.setOnClickListener() {
             myBarList.remove(entry)
             notifyDataSetChanged()
         }
