@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.TextView
 import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.R
+import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 
 class MyBarListAdapter(
@@ -44,9 +47,23 @@ class MyBarListAdapter(
         } else { //if yes, use the oldview
             view = oldView
         }
-
         val entry = getItem(index) //get the data for this index
-        view.ingredientName.text = entry.strIngredient1 //and fill the layout
+
+        // delete item onclick (quickfix)
+        // TODO implement button
+        // TODO displaying bar empty text not working if all items are deleted
+        view.setOnClickListener() {
+            myBarList.remove(entry)
+            notifyDataSetChanged()
+        }
+        // display empty Text if bar is empty. if not, use adapter to display items.
+        if (myBarList.isEmpty()) {
+            val listView: ListView = view.listViewMyBar as ListView
+            val emptyText = R.id.emptyBar as TextView
+            listView.emptyView = emptyText
+        } else {
+            view.ingredientName.text = entry.strIngredient1 //and fill the layout}
+        }
         return view
     }
 }

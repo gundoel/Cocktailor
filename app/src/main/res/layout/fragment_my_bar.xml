@@ -68,6 +68,12 @@
                 android:layout_height="420dp"
                 app:layout_constraintTop_toBottomOf="@+id/listViewMyBarSearch"
                 tools:layout_editor_absoluteX="-16dp" />
+            <TextView
+                android:id="@+id/emptyBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/empty_bar" />
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

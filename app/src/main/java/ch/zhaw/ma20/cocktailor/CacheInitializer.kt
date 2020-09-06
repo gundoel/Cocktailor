@@ -6,10 +6,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import ch.zhaw.ma20.cocktailor.appconst.PersistentData
 import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.Ingredients
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache.nameMyBarList
 import com.beust.klaxon.Klaxon
 import com.google.gson.reflect.TypeToken
 
@@ -21,10 +21,12 @@ class CacheInitializer : AppCompatActivity() {
         val apiController = APIController(service)
         val path = "list.php?i=list"
 
+        // read persistent data from storage
+        readIngredientList(PersistentData.MY_BAR_LIST)?.let { RemoteDataCache.addMyBarList(it) }
+        // cache ingredients
         apiController.get(path) { response ->
             val ingredients = response?.let { Klaxon().parse<Ingredients>(it) }
             RemoteDataCache.addIngredientsList(ingredients!!.drinks)
-            readIngredientList(nameMyBarList)?.let { RemoteDataCache.addMyBarList(it) }
             startMainActivity()
         }
     }

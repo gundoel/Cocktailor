@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import ch.zhaw.ma20.cocktailor.appconst.PersistentData
 import ch.zhaw.ma20.cocktailor.fragments.FavoritesFragment
 import ch.zhaw.ma20.cocktailor.fragments.FinderFragment
 import ch.zhaw.ma20.cocktailor.fragments.MyBarFragment
@@ -67,6 +68,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause(){
         super.onPause()
-        cacheTearDown?.persistList(RemoteDataCache.myBarList, RemoteDataCache.nameMyBarList)
+        cacheTearDown?.persistList(RemoteDataCache.myBarList, PersistentData.MY_BAR_LIST)
     }
 }

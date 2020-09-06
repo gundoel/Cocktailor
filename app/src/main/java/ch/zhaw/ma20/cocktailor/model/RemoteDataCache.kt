@@ -7,9 +7,7 @@ object RemoteDataCache {
     val selectedItemsSet = mutableSetOf<String>()
     var lastCocktailSearchResultList = mutableListOf<Cocktail>()
     var lastRecipeSearchResultMap = mutableMapOf<String, Recipe>()
-    var emptyBarString = "The bar is empty!"
-    var myBarList: MutableList<Ingredient> = mutableListOf(Ingredient(emptyBarString))
-    var nameMyBarList = "MyBarList"
+    var myBarList: MutableList<Ingredient> = mutableListOf()
     val gson = Gson()
     val favoriteCocktailsSet = mutableSetOf<String>()
 
@@ -30,8 +28,7 @@ object RemoteDataCache {
     }
 
     fun addMyBarList(list : MutableList<Ingredient>) {
-        if (list == null) myBarList?.add(Ingredient(emptyBarString))
-        else myBarList = list
+        myBarList = list
     }
 
     fun addRecipeToFavorites(recipe : Recipe) {

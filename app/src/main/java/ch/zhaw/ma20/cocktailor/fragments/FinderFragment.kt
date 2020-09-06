@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
+import ch.zhaw.ma20.cocktailor.appconst.Connector
 import ch.zhaw.ma20.cocktailor.model.*
 import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.fragment_finder.*
