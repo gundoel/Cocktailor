@@ -2,6 +2,7 @@ package ch.zhaw.ma20.cocktailor.fragments
 
 import APIController
 import ServiceVolley
+import android.R.attr.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
@@ -21,6 +23,7 @@ import com.beust.klaxon.Klaxon
 import kotlinx.android.synthetic.main.fragment_finder.*
 import kotlinx.android.synthetic.main.fragment_finder.view.*
 import java.util.concurrent.atomic.AtomicInteger
+
 
 class FinderFragment : Fragment() {
     var adapter: IngredientsSearchAdapter? = null;

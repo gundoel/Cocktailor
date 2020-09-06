@@ -24,16 +24,13 @@ class MainActivity : AppCompatActivity() {
         var finderFragment = FinderFragment()
         var favoritesFragment = FavoritesFragment()
         var myBarFragment = MyBarFragment()
+
         cacheTearDown = CacheTearDown()
 
         makeCurrentFragment(finderFragment)
 
         bottom_navigation_menu.setOnNavigationItemSelectedListener {
-            // TODO save current fragment state and restore it on reload: Singleton-Datengefäss (Kotlin Object ist ein Singleton)
             // TODO how to load pics from json url: BitmapFactory. Bild über URL als decodeByteArray laden. Beim Starten der App alles Cachen inkl. Bilder.
-            // TODO how to update list, filter list: 2. Liste erstellen (Kopie erstellen von voller Liste, Filter auf 2. Liste aufrufen und auf dem adapter.notifyChange aufrufen
-            // Vorsicht: Wenn man die Liste gefiltert hat, muss man sie neu auf dem Adapter setzen. Evtl. ist notify dann nicht mehr nötig.
-            // TODO how to save data: SharedPreferences
             when (it.itemId) {
                 R.id.nav_finder -> makeCurrentFragment(finderFragment)
                 R.id.nav_favorites -> makeCurrentFragment(favoritesFragment)
@@ -62,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     fun makeCurrentFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.fl_wrapper, fragment)
+            addToBackStack(null)
             commit()
         }
     }

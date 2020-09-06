@@ -7,7 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.RecipeIngredientsAdapter
 import ch.zhaw.ma20.cocktailor.model.Recipe
@@ -21,6 +23,18 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
     val apiController = APIController(service)
     var adapter: RecipeIngredientsAdapter? = null;
     val path = "lookup.php?i=$cocktailId"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val manager: FragmentManager = activity!!.supportFragmentManager
+                if (manager.backStackEntryCount > 0) {
+                    manager.popBackStackImmediate()
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
