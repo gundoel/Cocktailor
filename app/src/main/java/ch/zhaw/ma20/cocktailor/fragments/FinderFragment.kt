@@ -2,7 +2,6 @@ package ch.zhaw.ma20.cocktailor.fragments
 
 import APIController
 import ServiceVolley
-import android.R.attr.fragment
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,7 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
@@ -141,9 +139,9 @@ class FinderFragment : Fragment() {
                             RecipeSearchResultCart(AtomicInteger(cocktailList.size), false)
                         for (item in cocktailList) {
                             val cocktailId = item.idDrink
-                            val path = "lookup.php?i=$cocktailId"
+                            val recipePath = "lookup.php?i=$cocktailId"
                             // get recipes
-                            apiController.get(path) { response ->
+                            apiController.get(recipePath) { response ->
                                 val recipes = response?.let {
                                     Klaxon().parse<RecipeSearchResult>(it)
                                 }
@@ -152,17 +150,9 @@ class FinderFragment : Fragment() {
                                     val recipe = recipes?.drinks?.get(0)
                                     recipeResultCart.addQueryResult(recipe)
                                     // got all recipes -> get missing ingredients and cache recipe
-                                    var availableIngredients: Int = 0
-                                    var ingredientsList = mutableListOf<String?>()
-                                    ingredientsList = (recipe?.getIngredientsList()
+                                    var ingredientsList = (recipe?.getIngredientsList()
                                         ?.map { it.ingredient })!!.toMutableList()
-                                    availableIngredients =
-                                        RemoteDataCache.getNumberOfGivenIngredientsInMyBar(
-                                            ingredientsList
-                                        )
-                                    item.availableIngredients = availableIngredients
-                                    item.missingIngredients =
-                                        recipe?.getIngredientsList()!!.size - availableIngredients
+                                    item.setIngredientNumbers(ingredientsList)
                                 }
                                 if (recipeResultCart.pendingRequests.decrementAndGet() == 0) {
                                     var cocktailSearchResultFragment =

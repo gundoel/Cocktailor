@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.RecipeIngredientsAdapter
 import ch.zhaw.ma20.cocktailor.model.Recipe
@@ -72,8 +74,10 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
         layout.likeButton.setOnClickListener() {
             if (layout.likeButton.isChecked) {
                 RemoteDataCache.addRecipeToFavorites(recipe)
+                Toast.makeText(Cocktailor.applicationContext(), recipe.strDrink + R.string.added_to_favorites, Toast.LENGTH_SHORT).show()
             } else {
                 RemoteDataCache.removeRecipeFromFavorites(recipe)
+                Toast.makeText(Cocktailor.applicationContext(), recipe.strDrink + R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
             }
         }
         return layout
