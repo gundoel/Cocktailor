@@ -4,15 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.SpinnerAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.CocktailSearchResultAdapter
+import ch.zhaw.ma20.cocktailor.appconst.SortingOptions
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.fragment_cocktailresults.view.*
+
 
 class CocktailSearchResultFragment : Fragment() {
 
@@ -36,9 +41,43 @@ class CocktailSearchResultFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         var layout = inflater.inflate(R.layout.fragment_cocktailresults, container, false)
-        adapter = CocktailSearchResultAdapter(
-            RemoteDataCache!!.lastCocktailSearchResultList
+        val types = arrayOf(
+            SortingOptions.SORT_BY_NAME,
+            SortingOptions.SORT_BY_MISSING_INGREDIENTS,
+            SortingOptions.SORT_BY_AVAILABLE_INGREDIENTS
         )
+        val cockTailList = RemoteDataCache!!.lastCocktailSearchResultList
+        adapter = CocktailSearchResultAdapter(
+            cockTailList
+        )
+        val spinner = layout.sortlist_spinner
+        spinner?.adapter = ArrayAdapter(
+            Cocktailor.applicationContext(),
+            R.layout.support_simple_spinner_dropdown_item,
+            types
+        ) as SpinnerAdapter
+        spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                cockTailList.sortBy{ it.strDrink }
+                adapter!!.notifyDataSetChanged()
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val sortingType = parent?.getItemAtPosition(position).toString()
+                when (sortingType) {
+                    SortingOptions.SORT_BY_NAME -> cockTailList.sortBy { it.strDrink }
+                    SortingOptions.SORT_BY_MISSING_INGREDIENTS -> cockTailList.sortBy { it.missingIngredients }
+                    SortingOptions.SORT_BY_AVAILABLE_INGREDIENTS -> cockTailList.sortByDescending { it.availableIngredients }
+                }
+                adapter!!.notifyDataSetChanged()
+            }
+
+        }
         layout.cocktail_search_results.setOnItemClickListener { parent, view, position, id ->
             val element = adapter!!.getItem(position)
             var recipeFragment = RecipeFragment(element.idDrink)
