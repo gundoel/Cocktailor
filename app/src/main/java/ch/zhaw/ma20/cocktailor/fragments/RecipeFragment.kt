@@ -2,6 +2,7 @@ package ch.zhaw.ma20.cocktailor.fragments
 
 import APIController
 import ServiceVolley
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -80,6 +81,8 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
                 Toast.makeText(Cocktailor.applicationContext(), recipe.strDrink + R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
             }
         }
+        layout.cocktailImage.setImageURI(Uri.parse("fileDir/$cocktailId" + "jpg"))
         return layout
+
     }
 }
