@@ -32,6 +32,7 @@
         android:id="@+id/filterIngredientsWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterIngredientsSubstringEt">
@@ -40,14 +41,12 @@
             android:id="@+id/filterIngredientsSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginStart="20dp" />
 
         <TextView
             android:id="@+id/filterIngredientsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:labelFor="@id/filterIngredientsSwitch"
             android:text="@string/showSelectedIngredients" />
     </LinearLayout>
@@ -57,6 +56,7 @@
         android:id="@+id/searchWithAllIngredientsWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterIngredientsWrapper">
@@ -65,23 +65,21 @@
             android:id="@+id/searchWithAllIngredientsSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp" />
+            android:layout_marginStart="20dp" />
 
         <TextView
             android:id="@+id/searchWithAllIngredientsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
             android:labelFor="@id/searchWithAllIngredientsSwitch"
             android:text="@string/searchWithAllIngredients" />
     </LinearLayout>
 
     <Button
         android:id="@+id/startSearchButton"
-        android:text="@string/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/search"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/searchWithAllIngredientsWrapper" />
 
