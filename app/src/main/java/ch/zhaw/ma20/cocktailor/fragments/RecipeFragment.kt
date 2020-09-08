@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
+import ch.zhaw.ma20.cocktailor.ThumbHandler
 import ch.zhaw.ma20.cocktailor.adapters.RecipeIngredientsAdapter
 import ch.zhaw.ma20.cocktailor.model.Recipe
 import ch.zhaw.ma20.cocktailor.model.RecipeSearchResult
@@ -81,7 +82,8 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
                 Toast.makeText(Cocktailor.applicationContext(), recipe.strDrink + R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
             }
         }
-        layout.cocktailImage.setImageURI(Uri.parse("fileDir/$cocktailId" + "jpg"))
+        layout.cocktailImage.setImageBitmap(ThumbHandler.loadImageBitmap(Cocktailor.applicationContext(), cocktailId))
+
         return layout
 
     }

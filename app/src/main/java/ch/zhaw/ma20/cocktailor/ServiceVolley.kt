@@ -5,6 +5,7 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.VolleyLog
 import com.android.volley.toolbox.StringRequest
+import java.io.File
 
 /**
  * https://www.varvet.com/blog/kotlin-with-volley/ adapted to work with GET and StringRequest
@@ -27,5 +28,4 @@ class ServiceVolley : ServiceInterface {
             })
         Cocktailor.instance?.addToRequestQueue(request, TAG)
     }
-
 }
