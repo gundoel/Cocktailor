@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
+import ch.zhaw.ma20.cocktailor.ThumbHandler
 import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.appconst.Connector
 import ch.zhaw.ma20.cocktailor.model.*
@@ -125,6 +126,7 @@ class FinderFragment : Fragment() {
                         else {
                             cocktailList.addAll(cocktailResultCart.getCocktailsAND())
                         }
+                        ThumbHandler.storeMultipleThumbs(cocktailList)
                         // cache cocktails
                         RemoteDataCache.addLastCocktailSearchResult(cocktailList)
                         if (cocktailList.isEmpty()) {
