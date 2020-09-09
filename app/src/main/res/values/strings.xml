@@ -119,4 +119,5 @@
     <string name="removed_from_favorites">" removed from favorites"</string>
     <string name="unknownErrorCocktailSearch">Searching for cocktails failed. Check internet connection and try again.</string>
     <string name="unknownErrorRecipeSearch">Searching for recipes failed. Check internet connection and try again.</string>
+    <string name="cocktails">Cocktails</string>
 </resources>

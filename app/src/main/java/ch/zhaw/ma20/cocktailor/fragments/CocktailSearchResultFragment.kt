@@ -16,13 +16,11 @@ import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.CocktailSearchResultAdapter
 import ch.zhaw.ma20.cocktailor.appconst.SortingOptions
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
-import kotlinx.android.synthetic.main.fragment_cocktailresults.view.*
-
+import kotlinx.android.synthetic.main.fragment_cocktails.view.*
 
 class CocktailSearchResultFragment : Fragment() {
     val cockTailList = RemoteDataCache!!.lastCocktailSearchResultList
     val adapter = CocktailSearchResultAdapter(cockTailList)
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
@@ -40,7 +38,7 @@ class CocktailSearchResultFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var layout = inflater.inflate(R.layout.fragment_cocktailresults, container, false)
+        var layout = inflater.inflate(R.layout.fragment_cocktails, container, false)
         val types = arrayOf(
             SortingOptions.SORT_BY_NAME,
             SortingOptions.SORT_BY_MISSING_INGREDIENTS,
@@ -64,8 +62,7 @@ class CocktailSearchResultFragment : Fragment() {
                 position: Int,
                 id: Long
             ) {
-                val sortingType = parent?.getItemAtPosition(position).toString()
-                when (sortingType) {
+                when (parent?.getItemAtPosition(position).toString()) {
                     SortingOptions.SORT_BY_NAME -> cockTailList.sortBy { it.strDrink }
                     SortingOptions.SORT_BY_MISSING_INGREDIENTS -> cockTailList.sortBy { it.missingIngredients }
                     SortingOptions.SORT_BY_AVAILABLE_INGREDIENTS -> cockTailList.sortByDescending { it.availableIngredients }
@@ -74,14 +71,15 @@ class CocktailSearchResultFragment : Fragment() {
             }
 
         }
-        layout.cocktail_search_results.setOnItemClickListener { parent, view, position, id ->
+        layout.cocktails.setOnItemClickListener { parent, view, position, id ->
             val element = adapter!!.getItem(position)
             var recipeFragment = RecipeFragment(element.idDrink)
             (activity as MainActivity?)?.makeCurrentFragment(
                 recipeFragment
             )
         }
-        layout.cocktail_search_results.adapter = adapter
+        layout.cocktails.adapter = adapter
+        adapter!!.notifyDataSetChanged()
         return layout
     }
 }

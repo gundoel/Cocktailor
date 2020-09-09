@@ -94,8 +94,6 @@ class FinderFragment : Fragment() {
                 if (it != null) {
                     // TODO implement properly
                     //ThumbHandler.storeMultipleThumbs(it)
-                    // TODO this call is blocking main thread
-                    // no need to cache all recipes if my bar is empty (better performance)
                     RecipeSearchHandler.getRecipesForCocktails(it) {
                         if (it != null) {
                             var cocktailSearchResultFragment =

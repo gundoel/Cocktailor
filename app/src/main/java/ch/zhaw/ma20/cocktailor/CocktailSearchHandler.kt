@@ -16,6 +16,7 @@ class CocktailSearchHandler {
         private var hasRequestFailed: Boolean = false
         private val service = ServiceVolley()
         private val apiController = APIController(service)
+
         fun getCocktailsByIngredients(
             ingredientIdSet: MutableSet<String>,
             connector: Connector = Connector.OR,

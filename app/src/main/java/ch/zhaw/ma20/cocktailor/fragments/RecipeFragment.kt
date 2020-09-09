@@ -60,8 +60,6 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
 
     fun getView(container: ViewGroup?, inflater: LayoutInflater, recipe: Recipe?): View {
         var layout = inflater.inflate(R.layout.fragment_recipe, container, false)
-        // recipe is always only 1 (id is unique)
-        // set infos
         if (recipe != null) {
             layout.recipeCocktailName.text = recipe.strDrink
             layout.recipeInstructions.text = recipe.strInstructions
@@ -76,14 +74,14 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
                     RemoteDataCache.addRecipeToFavorites(recipe)
                     Toast.makeText(
                         Cocktailor.applicationContext(),
-                        recipe.strDrink + R.string.added_to_favorites,
+                        recipe.strDrink + Cocktailor.applicationContext().getString(R.string.added_to_favorites),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
                     RemoteDataCache.removeRecipeFromFavorites(recipe)
                     Toast.makeText(
                         Cocktailor.applicationContext(),
-                        recipe.strDrink + R.string.removed_from_favorites,
+                        recipe.strDrink + Cocktailor.applicationContext().getString(R.string.removed_from_favorites),
                         Toast.LENGTH_SHORT
                     ).show()
                 }

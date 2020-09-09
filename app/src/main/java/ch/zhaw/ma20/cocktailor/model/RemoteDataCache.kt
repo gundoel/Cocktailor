@@ -9,7 +9,7 @@ object RemoteDataCache {
     var lastRecipeSearchResultMap = mutableMapOf<String, Recipe>()
     var myBarList: MutableList<Ingredient> = mutableListOf()
     val gson = Gson()
-    val favoriteCocktailsSet = mutableSetOf<String>()
+    val favoriteCocktailsList = mutableListOf<Cocktail>()
 
     fun addIngredientsList(list : MutableList<Ingredient>) {
         // sort alphabetically
@@ -32,15 +32,15 @@ object RemoteDataCache {
     }
 
     fun addRecipeToFavorites(recipe : Recipe) {
-        favoriteCocktailsSet.add(recipe.idDrink)
+        favoriteCocktailsList.add(Cocktail(recipe.strDrink, recipe.strDrinkThumb, recipe.idDrink))
     }
 
     fun removeRecipeFromFavorites(recipe : Recipe) {
-        favoriteCocktailsSet.remove(recipe.idDrink)
+        favoriteCocktailsList.remove(Cocktail(recipe.strDrink, recipe.strDrinkThumb, recipe.idDrink))
     }
 
     fun isRecipeInFavorites(recipe: Recipe) : Boolean {
-        return favoriteCocktailsSet.contains(recipe.idDrink)
+        return favoriteCocktailsList.contains(Cocktail(recipe.strDrink, recipe.strDrinkThumb, recipe.idDrink))
     }
 
     fun isIngredientInMyBar(ingredientName : String) : Boolean {
