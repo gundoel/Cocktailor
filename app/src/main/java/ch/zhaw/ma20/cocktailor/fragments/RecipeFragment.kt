@@ -2,19 +2,16 @@ package ch.zhaw.ma20.cocktailor.fragments
 
 import APIController
 import ServiceVolley
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
-import ch.zhaw.ma20.cocktailor.ThumbHandler
 import ch.zhaw.ma20.cocktailor.adapters.RecipeIngredientsAdapter
 import ch.zhaw.ma20.cocktailor.model.Recipe
 import ch.zhaw.ma20.cocktailor.model.RecipeSearchResult
@@ -45,10 +42,10 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var recipe : Recipe = RemoteDataCache.lastRecipeSearchResultMap.get(cocktailId)!!
+        var recipe: Recipe? = RemoteDataCache.lastRecipeSearchResultMap[cocktailId]
         /* load recipe from cache (available if recipe was cached during search.
         If recipe is called from favorites, recipe might not be in cache and needs therefore to be reloaded          */
-        if(recipe == null) {
+        if (recipe == null) {
             apiController.get(path) { response ->
                 val recipeRemote = response?.let {
                     Klaxon().parse<RecipeSearchResult>(it)
@@ -61,25 +58,35 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
         return getView(container, inflater, recipe)
     }
 
-    fun getView(container: ViewGroup?, inflater : LayoutInflater, recipe: Recipe) : View {
+    fun getView(container: ViewGroup?, inflater: LayoutInflater, recipe: Recipe?): View {
         var layout = inflater.inflate(R.layout.fragment_recipe, container, false)
         // recipe is always only 1 (id is unique)
         // set infos
-        layout.recipeCocktailName.text = recipe.strDrink
-        layout.recipeInstructions.text = recipe.strInstructions
-        // ingredients list
-        adapter = RecipeIngredientsAdapter(recipe.getIngredientsList())
-        layout.recipeIngredients.adapter = adapter
-        // initialize like button
-        layout.likeButton.isChecked = RemoteDataCache.isRecipeInFavorites(recipe)
-        // like button action
-        layout.likeButton.setOnClickListener() {
-            if (layout.likeButton.isChecked) {
-                RemoteDataCache.addRecipeToFavorites(recipe)
-                Toast.makeText(Cocktailor.applicationContext(), recipe.strDrink + R.string.added_to_favorites, Toast.LENGTH_SHORT).show()
-            } else {
-                RemoteDataCache.removeRecipeFromFavorites(recipe)
-                Toast.makeText(Cocktailor.applicationContext(), recipe.strDrink + R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
+        if (recipe != null) {
+            layout.recipeCocktailName.text = recipe.strDrink
+            layout.recipeInstructions.text = recipe.strInstructions
+            // ingredients list
+            adapter = RecipeIngredientsAdapter(recipe.getIngredientsList())
+            layout.recipeIngredients.adapter = adapter
+            // initialize like button
+            layout.likeButton.isChecked = RemoteDataCache.isRecipeInFavorites(recipe)
+            // like button action
+            layout.likeButton.setOnClickListener() {
+                if (layout.likeButton.isChecked) {
+                    RemoteDataCache.addRecipeToFavorites(recipe)
+                    Toast.makeText(
+                        Cocktailor.applicationContext(),
+                        recipe.strDrink + R.string.added_to_favorites,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    RemoteDataCache.removeRecipeFromFavorites(recipe)
+                    Toast.makeText(
+                        Cocktailor.applicationContext(),
+                        recipe.strDrink + R.string.removed_from_favorites,
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             }
         }
 

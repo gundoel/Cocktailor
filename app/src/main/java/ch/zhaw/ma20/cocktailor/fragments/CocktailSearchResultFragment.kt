@@ -20,8 +20,8 @@ import kotlinx.android.synthetic.main.fragment_cocktailresults.view.*
 
 
 class CocktailSearchResultFragment : Fragment() {
-
-    var adapter: CocktailSearchResultAdapter? = null;
+    val cockTailList = RemoteDataCache!!.lastCocktailSearchResultList
+    val adapter = CocktailSearchResultAdapter(cockTailList)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,10 +45,6 @@ class CocktailSearchResultFragment : Fragment() {
             SortingOptions.SORT_BY_NAME,
             SortingOptions.SORT_BY_MISSING_INGREDIENTS,
             SortingOptions.SORT_BY_AVAILABLE_INGREDIENTS
-        )
-        val cockTailList = RemoteDataCache!!.lastCocktailSearchResultList
-        adapter = CocktailSearchResultAdapter(
-            cockTailList
         )
         val spinner = layout.sortlist_spinner
         spinner?.adapter = ArrayAdapter(

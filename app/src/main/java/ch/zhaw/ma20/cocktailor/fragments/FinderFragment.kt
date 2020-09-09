@@ -1,27 +1,21 @@
 package ch.zhaw.ma20.cocktailor.fragments
 
-import APIController
-import ServiceVolley
+
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import ch.zhaw.ma20.cocktailor.Cocktailor
-import ch.zhaw.ma20.cocktailor.MainActivity
-import ch.zhaw.ma20.cocktailor.R
-import ch.zhaw.ma20.cocktailor.ThumbHandler
+import ch.zhaw.ma20.cocktailor.*
 import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.appconst.Connector
-import ch.zhaw.ma20.cocktailor.model.*
-import com.beust.klaxon.Klaxon
+import ch.zhaw.ma20.cocktailor.model.Ingredient
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.fragment_finder.*
 import kotlinx.android.synthetic.main.fragment_finder.view.*
-import java.util.concurrent.atomic.AtomicInteger
 
 
 class FinderFragment : Fragment() {
@@ -86,91 +80,43 @@ class FinderFragment : Fragment() {
                     ingredients_list.adapter = adapter
                     adapter!!.notifyDataSetChanged()
                 }
-
             }
 
             override fun afterTextChanged(s: Editable) {}
         })
 
         // handle search
-        // TODO spaghetti spaghetti
         layout.startSearchButton.setOnClickListener(View.OnClickListener {
             var connector =
                 if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
-            val service = ServiceVolley()
-            val apiController = APIController(service)
-            val cocktailResultCart =
-                CocktailSearchResultCart(AtomicInteger(selectedItems.size), false)
-            for (item in selectedItems) {
-                val ingredient = item
-                val path = "filter.php?i=$ingredient"
-                val result = mutableMapOf<String, Cocktail>()
-
-                apiController.get(path) { response ->
-                    val cocktails = response?.let {
-                        Klaxon().parse<CocktailSearchResult>(it)
-                    }
-                    if (cocktails != null) {
-                        cocktailResultCart.addRequestResult(
-                            cocktails.drinks.map { it.idDrink to it }.toMap().toMutableMap()
-                        )
-                    }
-                    // all cocktail requests done
-                    //TODO Error handling if request fails
-                    if (cocktailResultCart.pendingRequests.decrementAndGet() == 0) {
-                        var cocktailList = mutableListOf<Cocktail>()
-                        if (connector == Connector.OR) {
-                            cocktailList.addAll(cocktailResultCart.getCocktailsOR())
-                        }
-                        // AND
-                        else {
-                            cocktailList.addAll(cocktailResultCart.getCocktailsAND())
-                        }
-                        // ThumbHandler.getMultipleThumbs(cocktailList)
-                        // cache cocktails
-                        RemoteDataCache.addLastCocktailSearchResult(cocktailList)
-                        if (cocktailList.isEmpty()) {
+            // get CocktailList and afterwards recipes for search results
+            CocktailSearchHandler.getCocktailsByIngredients(selectedItems, connector) {
+                if (it != null) {
+                    // TODO implement properly
+                    //ThumbHandler.storeMultipleThumbs(it)
+                    // TODO this call is blocking main thread
+                    // no need to cache all recipes if my bar is empty (better performance)
+                    RecipeSearchHandler.getRecipesForCocktails(it) {
+                        if (it != null) {
+                            var cocktailSearchResultFragment =
+                                CocktailSearchResultFragment()
+                            (activity as MainActivity?)?.makeCurrentFragment(
+                                cocktailSearchResultFragment
+                            )
+                        } else {
                             Toast.makeText(
                                 Cocktailor.applicationContext(),
-                                R.string.no_results,
+                                R.string.unknownErrorRecipeSearch,
                                 Toast.LENGTH_LONG
                             ).show()
                         }
-                        // get recipes for results in order to get missing ingredients
-                        val recipeResultCart =
-                            RecipeSearchResultCart(AtomicInteger(cocktailList.size), false)
-                        for (item in cocktailList) {
-                            val cocktailId = item.idDrink
-                            val recipePath = "lookup.php?i=$cocktailId"
-                            // get recipes
-                            apiController.get(recipePath) { response ->
-                                val recipes = response?.let {
-                                    Klaxon().parse<RecipeSearchResult>(it)
-                                }
-                                if (recipes != null) {
-                                    // recipe is always only 1 (unique id)
-                                    val recipe = recipes?.drinks?.get(0)
-                                    recipeResultCart.addQueryResult(recipe)
-                                    // got all recipes -> get missing ingredients and cache recipe
-                                    var ingredientsList = (recipe?.getIngredientsList()
-                                        ?.map { it.ingredient })!!.toMutableList()
-                                    item.setIngredientNumbers(ingredientsList)
-                                }
-                                if (recipeResultCart.pendingRequests.decrementAndGet() == 0) {
-                                    var cocktailSearchResultFragment =
-                                        CocktailSearchResultFragment()
-                                    (activity as MainActivity?)?.makeCurrentFragment(
-                                        cocktailSearchResultFragment
-                                    )
-                                    RemoteDataCache.addLastRecipeSearchResult(recipeResultCart.allRequestResults)
-                                }
-                            }
-                            Log.i(
-                                "COCKTAILRESULT",
-                                item.idDrink + " " + item.strDrink + " " + item.strDrinkThumb
-                            )
-                        }
                     }
+                } else {
+                    Toast.makeText(
+                        Cocktailor.applicationContext(),
+                        R.string.unknownErrorCocktailSearch,
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
         })

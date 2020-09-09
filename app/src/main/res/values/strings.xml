@@ -117,4 +117,6 @@
     <string name="no_results">No results found</string>
     <string name="added_to_favorites">" added to favorites"</string>
     <string name="removed_from_favorites">" removed from favorites"</string>
+    <string name="unknownErrorCocktailSearch">Searching for cocktails failed. Check internet connection and try again.</string>
+    <string name="unknownErrorRecipeSearch">Searching for recipes failed. Check internet connection and try again.</string>
 </resources>
