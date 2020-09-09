@@ -126,7 +126,7 @@ class FinderFragment : Fragment() {
                         else {
                             cocktailList.addAll(cocktailResultCart.getCocktailsAND())
                         }
-                        ThumbHandler.storeMultipleThumbs(cocktailList)
+                        // ThumbHandler.getMultipleThumbs(cocktailList)
                         // cache cocktails
                         RemoteDataCache.addLastCocktailSearchResult(cocktailList)
                         if (cocktailList.isEmpty()) {

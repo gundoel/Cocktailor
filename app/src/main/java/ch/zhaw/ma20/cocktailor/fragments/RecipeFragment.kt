@@ -82,7 +82,6 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
                 Toast.makeText(Cocktailor.applicationContext(), recipe.strDrink + R.string.removed_from_favorites, Toast.LENGTH_SHORT).show()
             }
         }
-        layout.cocktailImage.setImageBitmap(ThumbHandler.loadImageBitmap(Cocktailor.applicationContext(), cocktailId))
 
         return layout
 

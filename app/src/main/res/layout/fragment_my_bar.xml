@@ -12,7 +12,6 @@
         android:id="@+id/myBarTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
         android:fontFamily="@font/euphoria_script"
         android:text="@string/mybar"
         android:textSize="36sp"
@@ -25,7 +24,7 @@
         android:id="@+id/addToBarLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:text="Add to the Bar:"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +34,7 @@
         android:id="@+id/searchForBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:queryHint="Find new ingredients"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -45,15 +44,14 @@
         android:id="@+id/listViewMyBarSearch"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:dividerHeight="2dp"
         app:layout_constraintTop_toBottomOf="@+id/searchForBar"
-        tools:layout_editor_absoluteX="31dp" />
+        tools:layout_editor_absoluteX="0dp" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="470dp"
         app:layout_constraintTop_toBottomOf="@+id/listViewMyBarSearch"
         tools:layout_editor_absoluteX="0dp">
 
@@ -65,9 +63,10 @@
             <ListView
                 android:id="@+id/listViewMyBar"
                 android:layout_width="fill_parent"
-                android:layout_height="420dp"
+                android:layout_height="470dp"
                 app:layout_constraintTop_toBottomOf="@+id/listViewMyBarSearch"
                 tools:layout_editor_absoluteX="-16dp" />
+
             <TextView
                 android:id="@+id/emptyBar"
                 android:layout_width="wrap_content"
