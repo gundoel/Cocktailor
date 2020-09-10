@@ -9,7 +9,7 @@ object RemoteDataCache {
     var lastRecipeSearchResultMap = mutableMapOf<String, Recipe>()
     var myBarList: MutableList<Ingredient> = mutableListOf()
     val gson = Gson()
-    val favoriteCocktailsList = mutableListOf<Cocktail>()
+    var favoriteCocktailsList = mutableListOf<Cocktail>()
 
     fun addIngredientsList(list : MutableList<Ingredient>) {
         // sort alphabetically
@@ -29,6 +29,10 @@ object RemoteDataCache {
 
     fun addMyBarList(list : MutableList<Ingredient>) {
         myBarList = list
+    }
+
+    fun addFavoriteCocktailList(list : MutableList<Cocktail>) {
+        favoriteCocktailsList = list
     }
 
     fun addRecipeToFavorites(recipe : Recipe) {

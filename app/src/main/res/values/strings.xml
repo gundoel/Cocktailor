@@ -120,4 +120,5 @@
     <string name="unknownErrorCocktailSearch">Searching for cocktails failed. Check internet connection and try again.</string>
     <string name="unknownErrorRecipeSearch">Searching for recipes failed. Check internet connection and try again.</string>
     <string name="cocktails">Cocktails</string>
+    <string name="bar_shelf">Bar shelf:</string>
 </resources>

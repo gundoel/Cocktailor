@@ -66,6 +66,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause(){
         super.onPause()
-        cacheTearDown?.persistList(RemoteDataCache.myBarList, PersistentData.MY_BAR_LIST)
+        cacheTearDown?.persistIngredientList(RemoteDataCache.myBarList, PersistentData.MY_BAR_LIST)
+        cacheTearDown?.persistCocktailList(RemoteDataCache.favoriteCocktailsList,PersistentData.MY_FAVORITES_LIST)
     }
 }
