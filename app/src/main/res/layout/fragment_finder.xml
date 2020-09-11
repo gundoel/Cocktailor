@@ -6,14 +6,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="ch.zhaw.ma20.cocktailor.fragments.FinderFragment">
+    tools:context="ch.zhaw.ma20.cocktailor.fragments.FinderFragment"
+    android:layout_margin="10dp">
 
     <TextView
         android:id="@+id/findCocktailsTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/euphoria_script"
-        android:text="@string/findCocktails"
+        android:text="@string/find_cocktails"
         android:textSize="36sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,8 +24,10 @@
     <EditText
         android:id="@id/filterIngredientsSubstringEt"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
-        android:hint="@string/filterIngredients"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:layout_marginTop="20dp"
+        android:hint="@string/filter_ingredients"
         app:layout_constraintBottom_toTopOf="@+id/filterIngredientsWrapper"
         app:layout_constraintTop_toBottomOf="@+id/findCocktailsTitle" />
 
@@ -48,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@id/filterIngredientsSwitch"
-            android:text="@string/showSelectedIngredients" />
+            android:text="@string/show_selected_ingredients" />
     </LinearLayout>
 
 
@@ -72,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:labelFor="@id/searchWithAllIngredientsSwitch"
-            android:text="@string/searchWithAllIngredients" />
+            android:text="@string/search_with_all_ingredients" />
     </LinearLayout>
 
     <Button

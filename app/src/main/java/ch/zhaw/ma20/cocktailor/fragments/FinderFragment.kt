@@ -93,9 +93,7 @@ class FinderFragment : Fragment() {
                 if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
             // get CocktailList and afterwards recipes for search results
             CocktailRequestHandler.getCocktailsByIngredients(selectedItems, connector) {
-                if (it != null) {
-                    // TODO implement properly
-                    //ThumbHandler.storeMultipleThumbs(it)
+                if (it != null && it.size > 0) {
                     RecipeRequestHandler.getRecipesForCocktails(it) {
                         if (it != null) {
                             var cocktailSearchResultFragment =
@@ -106,15 +104,17 @@ class FinderFragment : Fragment() {
                         } else {
                             Toast.makeText(
                                 Cocktailor.applicationContext(),
-                                R.string.unknownErrorRecipeSearch,
+                                R.string.unknown_error_recipe_search,
                                 Toast.LENGTH_LONG
                             ).show()
                         }
                     }
+                } else if (it != null && it.size == 0) {
+                    Toast.makeText(Cocktailor.applicationContext(),R.string.no_results, Toast.LENGTH_LONG).show()
                 } else {
                     Toast.makeText(
                         Cocktailor.applicationContext(),
-                        R.string.unknownErrorCocktailSearch,
+                        R.string.unknown_error_cocktail_search,
                         Toast.LENGTH_LONG
                     ).show()
                 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- http://android-delight.blogspot.com/2015/12/tablelayout-like-listview-multi-column.html -->
+<layer-list xmlns:android = "http://schemas.android.com/apk/res/android" android:layout_height="match_parent" android:layout_width="wrap_content">
+
+    <item
+        android:left = "-2dp"
+        android:top = "-2dp">
+        <shape android:shape = "rectangle" >
+            <solid android:color = "@android:color/transparent" />
+
+            <stroke
+                android:width = "1dp"
+                android:color = "@color/cardview_light_background" />
+        </shape>
+    </item>
+</layer-list > 

@@ -2,86 +2,75 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="75dp">
-
-    <ImageView
-        android:id="@+id/cocktailThumb"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="10dp">
 
     <LinearLayout
-        android:id="@+id/cocktailDescriptionWrapper"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cocktailThumb"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp">
 
-        <TextView
-            android:id="@+id/cocktailName"
-            android:textSize="18dp"
-            android:layout_width="180dp"
-            android:layout_height="22dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="15dp" />
+        <ImageView
+            android:id="@+id/cocktailThumb"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginRight="10dp" />
 
         <LinearLayout
-            android:id="@+id/ingredientStateWrapper"
+            android:id="@+id/cocktailDescriptionWrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginRight="20dp">
 
             <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="25dp"
+                android:id="@+id/ingredientStateWrapper"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:gravity="center"
+                    android:text="@string/ingredients"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
                     android:textSize="16dp"
-                    android:text="Missing: "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-                <TextView
-                    android:id="@+id/missingIngredients"
-                    android:textSize="16dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginLeft="5dp"
-                    android:textColor="@color/red" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="80dp"
-                android:layout_height="25dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:textSize="16dp"
-                    android:text="Available:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:layout_marginRight="5dp"/>
 
                 <TextView
                     android:id="@+id/availableIngredients"
-                    android:textSize="16dp"
-                    android:layout_marginLeft="5dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:textColor="@color/green" />
+                    android:autoSizeMaxTextSize="16dp"
+                    android:background="@drawable/ic_available_background"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    android:layout_marginRight="5dp"/>
+
+                <TextView
+                    android:id="@+id/missingIngredients"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="16dp"
+                    android:background="@drawable/ic_missing_background"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/cocktailName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="22dp"
+                android:layout_marginRight="20dp"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

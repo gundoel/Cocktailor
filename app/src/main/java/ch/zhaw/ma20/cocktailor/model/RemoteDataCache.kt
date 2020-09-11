@@ -51,7 +51,7 @@ object RemoteDataCache {
         return myBarList.any{ingredientListItem -> ingredientListItem.strIngredient1  == ingredientName}
     }
 
-    fun getNumberOfGivenIngredientsInMyBar(ingredientsList: MutableList<String?>) : Int {
+    fun getNumberOfGivenIngredientsInMyBar(ingredientsList: MutableList<String>) : Int {
         val filteredList= myBarList.filter {ingredientListItem ->   ingredientsList.contains(ingredientListItem.strIngredient1)}
         return filteredList.size
     }

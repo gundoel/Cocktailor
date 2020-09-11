@@ -67,6 +67,7 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
             Picasso.get().load(recipe.strDrinkThumb).into(imageView);
             layout.recipeCocktailName.text = recipe.strDrink
             layout.recipeInstructions.text = recipe.strInstructions
+            layout.recipeAlcoholic.text = recipe.strAlcoholic
             // ingredients list
             adapter = RecipeIngredientsAdapter(recipe.getIngredientsList())
             layout.recipeIngredients.adapter = adapter

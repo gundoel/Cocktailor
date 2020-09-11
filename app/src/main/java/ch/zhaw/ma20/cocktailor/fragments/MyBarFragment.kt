@@ -11,6 +11,7 @@ import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.MyBarListAdapter
 import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import kotlinx.android.synthetic.main.fragment_my_bar.*
 import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 
@@ -47,6 +48,10 @@ class MyBarFragment : Fragment() {
         }
 
         adapterBarList = MyBarListAdapter(myBarList!!, Cocktailor.applicationContext())
+        // display empty Text if bar is empty. if not, use adapter to display items.
+        val listView: ListView = layout.listViewMyBar as ListView
+        val emptyText = layout.emptyBar as TextView
+        listView.emptyView = emptyText
         layout.listViewMyBar.adapter = adapterBarList
 
         var searchView: SearchView = layout.searchForBar

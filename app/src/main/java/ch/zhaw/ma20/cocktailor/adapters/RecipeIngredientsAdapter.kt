@@ -7,6 +7,7 @@ import android.widget.BaseAdapter
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.RecipeIngredient
+import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.recipe_ingredient_item.view.*
 
 class RecipeIngredientsAdapter(
@@ -41,9 +42,10 @@ class RecipeIngredientsAdapter(
         val entry = getItem(index)
         view.recipeMeasurement.text = entry.measure
         view.recipeIngredient.text = entry.ingredient
-        /*if (RemoteDataCache.isIngredientInMyBar(entry.ingredient.toString())) {
+        if (entry.isIngredientInMyBar) {
             view.recipeIngredientInMyBar.setBackgroundResource(R.drawable.ic_baseline_done_24)
-        }*/
+            //view.recipeIngredientInMyBar.setPadding(0,0,0,0);
+        }
         return view
     }
 }
