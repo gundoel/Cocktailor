@@ -1,8 +1,5 @@
-package ch.zhaw.ma20.cocktailor
+package ch.zhaw.ma20.cocktailor.remote
 
-import APIController
-import ServiceVolley
-import android.util.Log
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.Recipe
 import ch.zhaw.ma20.cocktailor.model.RecipeSearchResult
@@ -10,7 +7,7 @@ import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import com.beust.klaxon.Klaxon
 import java.util.concurrent.atomic.AtomicInteger
 
-class RecipeSearchHandler {
+class RecipeRequestHandler {
     companion object {
         private val service = ServiceVolley()
         private val apiController = APIController(service)

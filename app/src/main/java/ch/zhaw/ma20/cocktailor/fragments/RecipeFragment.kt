@@ -1,11 +1,12 @@
 package ch.zhaw.ma20.cocktailor.fragments
 
-import APIController
-import ServiceVolley
+import ch.zhaw.ma20.cocktailor.remote.APIController
+import ch.zhaw.ma20.cocktailor.remote.ServiceVolley
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
@@ -17,6 +18,7 @@ import ch.zhaw.ma20.cocktailor.model.Recipe
 import ch.zhaw.ma20.cocktailor.model.RecipeSearchResult
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import com.beust.klaxon.Klaxon
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_recipe.view.*
 
 class RecipeFragment(val cocktailId: String) : Fragment() {
@@ -61,6 +63,8 @@ class RecipeFragment(val cocktailId: String) : Fragment() {
     fun getView(container: ViewGroup?, inflater: LayoutInflater, recipe: Recipe?): View {
         var layout = inflater.inflate(R.layout.fragment_recipe, container, false)
         if (recipe != null) {
+            var imageView : ImageView = layout.cocktailImage
+            Picasso.get().load(recipe.strDrinkThumb).into(imageView);
             layout.recipeCocktailName.text = recipe.strDrink
             layout.recipeInstructions.text = recipe.strInstructions
             // ingredients list

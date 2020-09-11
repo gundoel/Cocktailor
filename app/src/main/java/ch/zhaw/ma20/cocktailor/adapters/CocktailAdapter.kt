@@ -4,12 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.Cocktail
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.cocktail_selectable_item.view.*
+import kotlinx.android.synthetic.main.fragment_recipe.view.*
 
-class CocktailSearchResultAdapter(
+class CocktailAdapter(
     var cocktails: MutableList<Cocktail>
 
 ) : BaseAdapter() {
@@ -39,7 +42,8 @@ class CocktailSearchResultAdapter(
             view = oldView
         }
         val entry = getItem(index)
-        view.cocktailThumb.tooltipText = entry.strDrinkThumb
+        var imageView : ImageView = view.cocktailThumb
+        Picasso.get().load(entry.strDrinkThumb).into(imageView);
         view.cocktailName.text = entry.strDrink
         view.missingIngredients.text = entry.missingIngredients.toString()
         view.availableIngredients.text = entry.availableIngredients.toString()

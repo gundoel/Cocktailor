@@ -1,7 +1,7 @@
 package ch.zhaw.ma20.cocktailor
 
-import APIController
-import ServiceVolley
+import ch.zhaw.ma20.cocktailor.remote.APIController
+import ch.zhaw.ma20.cocktailor.remote.ServiceVolley
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle

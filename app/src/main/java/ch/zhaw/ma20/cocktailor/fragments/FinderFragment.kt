@@ -14,6 +14,8 @@ import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.appconst.Connector
 import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.remote.CocktailRequestHandler
+import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import kotlinx.android.synthetic.main.fragment_finder.*
 import kotlinx.android.synthetic.main.fragment_finder.view.*
 
@@ -90,11 +92,11 @@ class FinderFragment : Fragment() {
             var connector =
                 if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
             // get CocktailList and afterwards recipes for search results
-            CocktailSearchHandler.getCocktailsByIngredients(selectedItems, connector) {
+            CocktailRequestHandler.getCocktailsByIngredients(selectedItems, connector) {
                 if (it != null) {
                     // TODO implement properly
                     //ThumbHandler.storeMultipleThumbs(it)
-                    RecipeSearchHandler.getRecipesForCocktails(it) {
+                    RecipeRequestHandler.getRecipesForCocktails(it) {
                         if (it != null) {
                             var cocktailSearchResultFragment =
                                 CocktailSearchResultFragment()

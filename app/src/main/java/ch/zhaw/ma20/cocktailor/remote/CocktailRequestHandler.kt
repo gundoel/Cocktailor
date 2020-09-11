@@ -1,7 +1,5 @@
-package ch.zhaw.ma20.cocktailor
+package ch.zhaw.ma20.cocktailor.remote
 
-import APIController
-import ServiceVolley
 import ch.zhaw.ma20.cocktailor.appconst.Connector
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.CocktailSearchResult
@@ -9,7 +7,7 @@ import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import com.beust.klaxon.Klaxon
 import java.util.concurrent.atomic.AtomicInteger
 
-class CocktailSearchHandler {
+class CocktailRequestHandler {
     companion object {
         private val allRequestResults = mutableListOf<MutableMap<String, Cocktail>>()
         private val commonResults = mutableMapOf<String, Cocktail>()

@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:textStyle="bold" />
-            <!-- Empty view to push items to left an d right border -->
+            <!-- Empty view to push items to left and right border -->
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"

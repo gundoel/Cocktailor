@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
-import ch.zhaw.ma20.cocktailor.RecipeSearchHandler
+import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import ch.zhaw.ma20.cocktailor.adapters.FavoriteCocktailsAdapter
 import ch.zhaw.ma20.cocktailor.appconst.SortingOptions
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
@@ -44,7 +44,7 @@ class FavoritesFragment : Fragment() {
         var layout = inflater.inflate(R.layout.fragment_cocktails, container, false)
         // cache recipes
         // TODO cache only if necessary
-        RecipeSearchHandler.getRecipesForCocktails(cockTailList) {
+        RecipeRequestHandler.getRecipesForCocktails(cockTailList) {
             if (it != null) {
                 layout.cocktails.adapter = adapter
             } else {
