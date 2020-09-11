@@ -7,21 +7,20 @@ import android.widget.BaseAdapter
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.RecipeIngredient
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.recipe_ingredient_item.view.*
 
 class RecipeIngredientsAdapter(
-    var recipe: MutableList<RecipeIngredient>
+    private var recipe: MutableList<RecipeIngredient>
 
 ) : BaseAdapter() {
-    var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
+    private var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
 
     override fun getCount(): Int {
         return recipe.size
     }
 
     override fun getItem(index: Int): RecipeIngredient {
-        return recipe.get(index)
+        return recipe[index]
     }
 
     override fun getItemId(index: Int): Long {
@@ -32,13 +31,8 @@ class RecipeIngredientsAdapter(
         index: Int, oldView: View?,
         viewGroup: ViewGroup?
     ): View {
-        var view: View
         //check if we get a view to recycle
-        if (oldView == null) {
-            view = layoutInflater.inflate(R.layout.recipe_ingredient_item, null)
-        } else {
-            view = oldView
-        }
+        val view: View = oldView ?: layoutInflater.inflate(R.layout.recipe_ingredient_item, null)
         val entry = getItem(index)
         view.recipeMeasurement.text = entry.measure
         view.recipeIngredient.text = entry.ingredient

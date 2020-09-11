@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ch.zhaw.ma20.cocktailor">
-
-    <!-- Fuer Internet Call braucht es die Berechtigung. Muss vor Application-Teil sein -->
     <uses-permission android:name="android.permission.INTERNET" android:usesCleartextTraffic="true"/>
 
     <application

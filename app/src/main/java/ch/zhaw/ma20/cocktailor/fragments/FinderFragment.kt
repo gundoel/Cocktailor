@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.*
 import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.appconst.Connector
@@ -18,38 +17,39 @@ import ch.zhaw.ma20.cocktailor.remote.CocktailRequestHandler
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import kotlinx.android.synthetic.main.fragment_finder.*
 import kotlinx.android.synthetic.main.fragment_finder.view.*
+import java.util.*
 
 
-class FinderFragment : Fragment() {
-    var adapter: IngredientsSearchAdapter? = null;
+class FinderFragment : BaseFragment() {
+    var adapter: IngredientsSearchAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var layout = inflater.inflate(R.layout.fragment_finder, container, false)
-        val selectedItems = RemoteDataCache?.selectedItemsSet
+        val layout = inflater.inflate(R.layout.fragment_finder, container, false)
+        val selectedItems = RemoteDataCache.selectedItemsSet
         adapter = IngredientsSearchAdapter(
-            RemoteDataCache!!.ingredientsList
+            RemoteDataCache.ingredientsList
         )
         layout.ingredients_list.adapter = adapter
 
         // filter list items by to selected items only
         layout.filterIngredientsSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
+            adapter = if (isChecked) {
                 val reducedList =
-                    RemoteDataCache!!.ingredientsList.filter {
-                        selectedItems.contains(it.strIngredient1.toString())
+                    RemoteDataCache.ingredientsList.filter {
+                        selectedItems.contains(it.strIngredient1)
                     }
-                adapter = IngredientsSearchAdapter(
+                IngredientsSearchAdapter(
                     reducedList as MutableList<Ingredient>
                 )
 
             } else {
                 // set default adapter
-                adapter = IngredientsSearchAdapter(
-                    RemoteDataCache!!.ingredientsList
+                IngredientsSearchAdapter(
+                    RemoteDataCache.ingredientsList
                 )
             }
             layout.ingredients_list.adapter = adapter
@@ -69,12 +69,12 @@ class FinderFragment : Fragment() {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.isEmpty()) {
                     adapter = IngredientsSearchAdapter(
-                        RemoteDataCache!!.ingredientsList
+                        RemoteDataCache.ingredientsList
                     )
                 } else {
                     val reducedList =
-                        RemoteDataCache!!.ingredientsList.filter {
-                            it.strIngredient1.toUpperCase().contains(s.toString().toUpperCase())
+                        RemoteDataCache.ingredientsList.filter {
+                            it.strIngredient1.toUpperCase(Locale.GERMANY).contains(s.toString().toUpperCase((Locale.GERMANY)))
                         }
                     adapter = IngredientsSearchAdapter(
                         reducedList as MutableList<Ingredient>
@@ -88,15 +88,15 @@ class FinderFragment : Fragment() {
         })
 
         // handle search
-        layout.startSearchButton.setOnClickListener(View.OnClickListener {
-            var connector =
+        layout.startSearchButton.setOnClickListener {
+            val connector =
                 if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
             // get CocktailList and afterwards recipes for search results
-            CocktailRequestHandler.getCocktailsByIngredients(selectedItems, connector) {
+            CocktailRequestHandler.getCocktailsByIngredients(selectedItems, connector) { it ->
                 if (it != null && it.size > 0) {
                     RecipeRequestHandler.getRecipesForCocktails(it) {
                         if (it != null) {
-                            var cocktailSearchResultFragment =
+                            val cocktailSearchResultFragment =
                                 CocktailSearchResultFragment()
                             (activity as MainActivity?)?.makeCurrentFragment(
                                 cocktailSearchResultFragment
@@ -110,7 +110,11 @@ class FinderFragment : Fragment() {
                         }
                     }
                 } else if (it != null && it.size == 0) {
-                    Toast.makeText(Cocktailor.applicationContext(),R.string.no_results, Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        Cocktailor.applicationContext(),
+                        R.string.no_results,
+                        Toast.LENGTH_LONG
+                    ).show()
                 } else {
                     Toast.makeText(
                         Cocktailor.applicationContext(),
@@ -119,9 +123,9 @@ class FinderFragment : Fragment() {
                     ).show()
                 }
             }
-        })
+        }
         // handle selection of ingredients (https://stackoverflow.com/questions/2367936/listview-onitemclicklistener-not-responding)
-        layout.ingredients_list.itemsCanFocus = true;
+        layout.ingredients_list.itemsCanFocus = true
         return layout
     }
 

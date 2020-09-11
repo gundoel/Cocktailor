@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.MyBarListAdapter
 import ch.zhaw.ma20.cocktailor.model.Ingredient
@@ -13,7 +12,7 @@ import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 
-class MyBarFragment : Fragment() {
+class MyBarFragment : BaseFragment() {
     private val myBarList = RemoteDataCache.myBarList
     private var adapterBarList: MyBarListAdapter? = null
     var adapterArrayList: ArrayAdapter<String>? = null

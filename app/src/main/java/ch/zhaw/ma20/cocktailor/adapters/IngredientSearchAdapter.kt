@@ -14,15 +14,15 @@ class IngredientsSearchAdapter(
     var ingredients: MutableList<Ingredient>
 
 ) : BaseAdapter() {
-    var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
-    var selectedItems = RemoteDataCache.selectedItemsSet
+    private var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
+    private var selectedItems = RemoteDataCache.selectedItemsSet
 
     override fun getCount(): Int {
         return ingredients.size
     }
 
     override fun getItem(index: Int): Ingredient {
-        return ingredients.get(index)
+        return ingredients[index]
     }
 
     override fun getItemId(index: Int): Long {
@@ -33,13 +33,8 @@ class IngredientsSearchAdapter(
         index: Int, oldView: View?,
         viewGroup: ViewGroup?
     ): View {
-        var view: View
         //check if we get a view to recycle
-        if (oldView == null) {
-            view = layoutInflater.inflate(R.layout.ingredient_selectable_item, null)
-        } else {
-            view = oldView
-        }
+        val view: View = oldView ?: layoutInflater.inflate(R.layout.ingredient_selectable_item, null)
         view.ingredientNameCb.setOnClickListener {
             val isChecked: Boolean = view.ingredientNameCb.isChecked
             val itemText: String = view.ingredientNameCb.text.toString()

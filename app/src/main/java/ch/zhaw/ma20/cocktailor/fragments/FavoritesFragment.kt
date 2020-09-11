@@ -5,9 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.activity.OnBackPressedCallback
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
@@ -17,25 +14,14 @@ import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import kotlinx.android.synthetic.main.fragment_cocktails.view.*
 
-class FavoritesFragment : Fragment() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        activity?.onBackPressedDispatcher?.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                val manager: FragmentManager = activity!!.supportFragmentManager
-                if (manager.backStackEntryCount > 0) {
-                    manager.popBackStackImmediate()
-                }
-            }
-        })
-    }
+class FavoritesFragment : BaseFragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var layout = inflater.inflate(R.layout.fragment_cocktails, container, false)
+        val layout = inflater.inflate(R.layout.fragment_cocktails, container, false)
         // cache recipes
         // TODO cache only if necessary
         // display empty Text if no favorites are in list
@@ -43,7 +29,7 @@ class FavoritesFragment : Fragment() {
         val emptyText = layout.emptyFavorites as TextView
         emptyText.setText(R.string.empty_favorites)
         listView.emptyView = emptyText
-        val cockTailList = RemoteDataCache!!.favoriteCocktailsList
+        val cockTailList = RemoteDataCache.favoriteCocktailsList
         val adapter = FavoriteCocktailsAdapter(cockTailList)
         RecipeRequestHandler.getRecipesForCocktails(cockTailList) {
             if (it != null) {
@@ -66,11 +52,11 @@ class FavoritesFragment : Fragment() {
             Cocktailor.applicationContext(),
             R.layout.support_simple_spinner_dropdown_item,
             types
-        ) as SpinnerAdapter
+        )
         spinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 cockTailList.sortBy { it.strDrink }
-                adapter!!.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
             }
 
             override fun onItemSelected(
@@ -84,17 +70,17 @@ class FavoritesFragment : Fragment() {
                     SortingOptions.SORT_BY_MISSING_INGREDIENTS -> cockTailList.sortBy { it.missingIngredients }
                     SortingOptions.SORT_BY_AVAILABLE_INGREDIENTS -> cockTailList.sortByDescending { it.availableIngredients }
                 }
-                adapter!!.notifyDataSetChanged()
+                adapter.notifyDataSetChanged()
             }
         }
         layout.cocktails.setOnItemClickListener { parent, view, position, id ->
-            val element = adapter!!.getItem(position)
-            var recipeFragment = RecipeFragment(element.idDrink)
+            val element = adapter.getItem(position)
+            val recipeFragment = RecipeFragment(element.idDrink)
             (activity as MainActivity?)?.makeCurrentFragment(
                 recipeFragment
             )
         }
-        adapter!!.notifyDataSetChanged()
+        adapter.notifyDataSetChanged()
         return layout
     }
 }

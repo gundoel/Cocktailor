@@ -11,14 +11,14 @@ class RecipeRequestHandler {
     companion object {
         private val service = ServiceVolley()
         private val apiController = APIController(service)
-        val allRequestResults = mutableListOf<Recipe>()
+        private val allRequestResults = mutableListOf<Recipe>()
         var hasRequestFailed: Boolean = false
 
         fun getRecipesForCocktails(
             cocktailList: MutableList<Cocktail>,
             completionHandler: (response: MutableList<Recipe>?) -> Unit
         ) {
-            val pendingRequests : AtomicInteger = AtomicInteger(cocktailList.size)
+            val pendingRequests = AtomicInteger(cocktailList.size)
             for (item in cocktailList) {
                 val cocktailId = item.idDrink
                 val recipePath = "lookup.php?i=$cocktailId"
@@ -32,7 +32,7 @@ class RecipeRequestHandler {
                             allRequestResults.add(recipe)
                         }
                         // got all recipes -> get missing ingredients and cache recipe
-                        var ingredientsList = (recipe?.getIngredientsList()
+                        val ingredientsList = (recipe?.getIngredientsList()
                             ?.map { it.ingredient })!!.toMutableList()
                         item.setIngredientNumbers(ingredientsList)
                         if (pendingRequests.decrementAndGet() == 0) {

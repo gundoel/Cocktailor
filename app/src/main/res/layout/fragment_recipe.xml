@@ -22,7 +22,7 @@
                 android:id="@+id/recipeCocktailName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="30dp"
+                android:textSize="30sp"
                 android:fontFamily="@font/euphoria_script"
                 android:textStyle="bold" />
             <!-- Empty view to push items to left and right border -->
@@ -50,6 +50,7 @@
 
         <ImageView
             android:id="@+id/cocktailImage"
+            android:contentDescription="@string/cocktail_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
@@ -61,12 +62,19 @@
             android:layout_marginTop="20dp"
             android:text="@string/instructions"
             android:textStyle="bold"
-            android:textSize="22dp"/>
+            android:textSize="22sp"/>
 
         <TextView
-            android:id="@+id/recipeInstructions"
+        android:id="@+id/recipeInstructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/recipeGlass"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/recommended_glass"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/recipeIngredientsTitle"
@@ -75,7 +83,7 @@
             android:layout_marginTop="20dp"
             android:text="@string/ingredients"
             android:textStyle="bold"
-            android:textSize="22dp"/>
+            android:textSize="22sp"/>
 
 
         <LinearLayout
@@ -94,7 +102,7 @@
                 android:id="@+id/recipeIngredientHead"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
+                android:layout_gravity="start"
                 android:layout_weight="5"
                 android:text="@string/ingredients"
                 android:textStyle="bold"/>
@@ -103,8 +111,8 @@
                 android:id="@+id/recipeIngredientInMyBarHead"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
-                android:layout_gravity="right"
-                android:gravity="right"
+                android:layout_gravity="end"
+                android:gravity="end"
                 android:text="@string/in_bar"
                 android:textStyle="bold" />
         </LinearLayout>

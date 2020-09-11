@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp">
@@ -15,24 +16,26 @@
         android:layout_marginBottom="10dp">
 
         <ImageView
+            android:contentDescription="@string/cocktail_image"
             android:id="@+id/cocktailThumb"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="10dp" />
+            android:layout_marginEnd="10dp" />
 
         <LinearLayout
             android:id="@+id/cocktailDescriptionWrapper"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginRight="20dp">
+            android:layout_marginEnd="20dp">
 
             <LinearLayout
                 android:id="@+id/ingredientStateWrapper"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:orientation="horizontal">
+                android:layout_gravity="end"
+                android:orientation="horizontal"
+                tools:ignore="RtlHardcoded">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -40,8 +43,8 @@
                     android:gravity="center"
                     android:text="@string/ingredients"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
-                    android:textSize="16dp"
-                    android:layout_marginRight="5dp"/>
+                    android:textSize="16sp"
+                    android:layout_marginEnd="5dp"/>
 
                 <TextView
                     android:id="@+id/availableIngredients"
@@ -52,7 +55,7 @@
                     android:gravity="center"
                     android:textColor="@color/white"
                     android:textStyle="bold"
-                    android:layout_marginRight="5dp"/>
+                    android:layout_marginEnd="5dp"/>
 
                 <TextView
                     android:id="@+id/missingIngredients"
@@ -69,8 +72,8 @@
                 android:id="@+id/cocktailName"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="22dp"
-                android:layout_marginRight="20dp"/>
+                android:textSize="22sp"
+                android:layout_marginEnd="20dp"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

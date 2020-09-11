@@ -13,7 +13,7 @@ import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
-    var cacheTearDown : CacheTearDown? = null
+    private var cacheTearDown : CacheTearDown? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,16 +21,15 @@ class MainActivity : AppCompatActivity() {
         //setSupportActionBar(findViewById(R.id.toolbar))
 
         // load data
-        var finderFragment = FinderFragment()
-        var favoritesFragment = FavoritesFragment()
-        var myBarFragment = MyBarFragment()
+        val finderFragment = FinderFragment()
+        val favoritesFragment = FavoritesFragment()
+        val myBarFragment = MyBarFragment()
 
         cacheTearDown = CacheTearDown()
 
         makeCurrentFragment(finderFragment)
 
         bottom_navigation_menu.setOnNavigationItemSelectedListener {
-            // TODO how to load pics from json url: BitmapFactory. Bild über URL als decodeByteArray laden. Beim Starten der App alles Cachen inkl. Bilder.
             when (it.itemId) {
                 R.id.nav_finder -> makeCurrentFragment(finderFragment)
                 R.id.nav_favorites -> makeCurrentFragment(favoritesFragment)

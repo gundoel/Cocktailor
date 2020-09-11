@@ -3,7 +3,7 @@ package ch.zhaw.ma20.cocktailor.model
 class Cocktail(val strDrink : String, val strDrinkThumb : String, val idDrink : String, var missingIngredients : Int = 0, var availableIngredients : Int = 0) {
 
     fun setIngredientNumbers(ingredientsList: MutableList<String>) {
-        var availableIngredientsMyBar =
+        val availableIngredientsMyBar =
             RemoteDataCache.getNumberOfGivenIngredientsInMyBar(
                 ingredientsList
             )
@@ -24,7 +24,7 @@ class Cocktail(val strDrink : String, val strDrinkThumb : String, val idDrink : 
         if (other !is Cocktail) {
             return false
         }
-        val other: Cocktail = other as Cocktail
-        return idDrink.equals(other.idDrink)
+        val other: Cocktail = other
+        return idDrink == other.idDrink
     }
 }

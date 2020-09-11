@@ -13,17 +13,17 @@ object RemoteDataCache {
 
     fun addIngredientsList(list : MutableList<Ingredient>) {
         // sort alphabetically
-        list.sortBy { it.strIngredient1.toString() }
-        ingredientsList = list;
+        list.sortBy { it.strIngredient1}
+        ingredientsList = list
     }
 
     fun addLastCocktailSearchResult(list : MutableList<Cocktail>) {
-        lastCocktailSearchResultList = list;
+        lastCocktailSearchResultList = list
     }
 
     fun addLastRecipeSearchResult(list : MutableList<Recipe>) {
         for(item in list) {
-            lastRecipeSearchResultMap.put(item.idDrink, item)
+            lastRecipeSearchResultMap[item.idDrink] = item
         }
     }
 

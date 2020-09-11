@@ -1,4 +1,3 @@
 package ch.zhaw.ma20.cocktailor.model
 
-class RecipeSearchResult(val drinks: MutableList<Recipe>) {
-}
+class RecipeSearchResult(val drinks: MutableList<Recipe>)

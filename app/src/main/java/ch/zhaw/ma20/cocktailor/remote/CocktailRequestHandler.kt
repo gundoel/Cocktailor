@@ -20,10 +20,9 @@ class CocktailRequestHandler {
             connector: Connector = Connector.OR,
             completionHandler: (response: MutableList<Cocktail>?) -> Unit
         ) {
-            val pendingRequests: AtomicInteger = AtomicInteger(ingredientIdSet.size)
+            val pendingRequests = AtomicInteger(ingredientIdSet.size)
             for (item in ingredientIdSet) {
-                val ingredient = item
-                val path = "filter.php?i=$ingredient"
+                val path = "filter.php?i=$item"
 
                 apiController.get(path) { response ->
                     if (response != null) {
@@ -36,7 +35,7 @@ class CocktailRequestHandler {
                         // all cocktail requests done
                         //TODO Error handling if request fails
                         if (pendingRequests.decrementAndGet() == 0) {
-                            var cocktailList = mutableListOf<Cocktail>()
+                            val cocktailList = mutableListOf<Cocktail>()
                             if (connector == Connector.OR) {
                                 cocktailList.addAll(getCocktailsOR())
                             }
@@ -59,7 +58,7 @@ class CocktailRequestHandler {
             // put all cocktails in map for easy filtering
             for (item in allRequestResults) {
                 for (item in item.values) {
-                    commonResults.put(item.idDrink, item)
+                    commonResults[item.idDrink] = item
                 }
             }
             //initialize with keys of first map
@@ -74,7 +73,7 @@ class CocktailRequestHandler {
             return resultList
         }
 
-        fun getCocktailsOR(): MutableList<Cocktail> {
+        private fun getCocktailsOR(): MutableList<Cocktail> {
             val resultMap = mutableMapOf<String,Cocktail>()
             for (item in allRequestResults) {
                 resultMap.putAll(item)

@@ -15,8 +15,8 @@ class Ingredient(val strIngredient1: String) {
         if (other !is Ingredient) {
             return false
         }
-        val other: Ingredient = other as Ingredient
-        return strIngredient1.equals(other.strIngredient1)
+        val other: Ingredient = other
+        return strIngredient1 == other.strIngredient1
     }
 
 }
