@@ -8,7 +8,7 @@ import android.widget.*
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
-import ch.zhaw.ma20.cocktailor.adapters.FavoriteCocktailsAdapter
+import ch.zhaw.ma20.cocktailor.adapters.CocktailAdapter
 import ch.zhaw.ma20.cocktailor.appconst.SortingOptions
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
@@ -30,7 +30,7 @@ class FavoritesFragment : BaseFragment() {
         emptyText.setText(R.string.empty_favorites)
         listView.emptyView = emptyText
         val cockTailList = RemoteDataCache.favoriteCocktailsList
-        val adapter = FavoriteCocktailsAdapter(cockTailList)
+        val adapter = CocktailAdapter(cockTailList)
         RecipeRequestHandler.getRecipesForCocktails(cockTailList) {
             if (it != null) {
                 layout.cocktails.adapter = adapter
