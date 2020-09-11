@@ -33,7 +33,7 @@ class CacheInitializer : AppCompatActivity() {
         }
     }
 
-    fun startMainActivity() {
+    private fun startMainActivity() {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
         finish()

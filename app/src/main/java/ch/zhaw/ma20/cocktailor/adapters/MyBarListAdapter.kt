@@ -1,59 +1,50 @@
 package ch.zhaw.ma20.cocktailor.adapters
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.Ingredient
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 
 class MyBarListAdapter(
-    var myBarList: MutableList<Ingredient>,
-    val context: Context
+    private var myBarList: MutableList<Ingredient>
 ) : BaseAdapter() {
 
-    var layoutInflater: LayoutInflater
+    private var layoutInflater: LayoutInflater
 
     init {
-        // sort alphabetically
         myBarList.sortBy { ingredientListItem -> ingredientListItem.strIngredient1 }
-        layoutInflater = LayoutInflater.from(context)
+        layoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
     }
 
-    override fun getCount(): Int { //number of elements to display
+    override fun getCount(): Int {
         return myBarList.size
     }
 
-    override fun getItem(index: Int): Ingredient { //item at index
-        return myBarList.get(index)
+    override fun getItem(index: Int): Ingredient {
+        return myBarList[index]
     }
 
-    override fun getItemId(index: Int): Long { //itemId for
+    override fun getItemId(index: Int): Long {
         return 0
     }
 
+    @SuppressLint("InflateParams")
     override fun getView(
         index: Int, oldView: View?,
         viewGroup: ViewGroup?
     ): View {
-        var view: View
-        if (oldView == null) { //check if we get a view to recycle
-            view = layoutInflater.inflate(R.layout.ingredient_item, null)
-        } else { //if yes, use the oldview
-            view = oldView
-        }
-        val entry = getItem(index) //get the data for this index
-
-        // delete item onclick (quickfix)
-        // TODO implement button
-        // TODO displaying bar empty text not working if all items are deleted
-        view.deleteItemButton.setOnClickListener() {
+        val view: View = oldView ?: layoutInflater.inflate(R.layout.ingredient_item, null)
+        val entry = getItem(index)
+        view.deleteItemButton.setOnClickListener {
             myBarList.remove(entry)
             notifyDataSetChanged()
         }
-        view.ingredientName.text = entry.strIngredient1 //and fill the layout}
+        view.ingredientName.text = entry.strIngredient1
         return view
     }
 }

@@ -12,7 +12,7 @@ class CacheTearDown {
         val editor = settings.edit()
         val jsonString : String = RemoteDataCache.gson.toJson(list)
         editor.putString(listName, jsonString)
-        editor.commit()
+        editor.apply()
     }
 
     fun persistCocktailList(list: MutableList<Cocktail>?, listName: String) {
@@ -20,6 +20,6 @@ class CacheTearDown {
         val editor = settings.edit()
         val jsonString : String = RemoteDataCache.gson.toJson(list)
         editor.putString(listName, jsonString)
-        editor.commit()
+        editor.apply()
     }
 }
