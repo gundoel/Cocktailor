@@ -5,6 +5,10 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 
+/**
+ * Base Fragment is parent of all fragments of this app. Provides base functions for all fragments
+ * extending BaseFragment.
+ */
 open class BaseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

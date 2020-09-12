@@ -17,8 +17,12 @@ import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import kotlinx.android.synthetic.main.fragment_cocktails.view.*
 
+/**
+ * Fragment to display cocktail search results and favorite cocktails.
+ * Different behavior when displaying favoritexs is handled with bundle parameter.
+ */
 class CocktailFragment : BaseFragment() {
-    var cocktailList = mutableListOf<Cocktail>()
+    private var cocktailList = mutableListOf<Cocktail>()
     private var adapter = CocktailAdapter(cocktailList)
 
     override fun onCreateView(
@@ -32,8 +36,9 @@ class CocktailFragment : BaseFragment() {
             SortingOptions.SORT_BY_MISSING_INGREDIENTS,
             SortingOptions.SORT_BY_AVAILABLE_INGREDIENTS
         )
+        val spinner = layout.sortlist_spinner
         val type: String? = arguments?.getString("type")
-        /* Fragment is being to display favorites and to display search results. Loading recipes is only needed with favorites,
+        /* Fragment is being used to display favorites and to display search results. Loading recipes is only needed with favorites,
         since recipes are already in cache when displaying search results */
         if (type == "favorites") {
             cocktailList = RemoteDataCache.favoriteCocktailsList
@@ -51,10 +56,10 @@ class CocktailFragment : BaseFragment() {
             }
         } else {
             cocktailList = RemoteDataCache.lastCocktailSearchResultList
-            adapter = CocktailAdapter(cocktailList)
         }
-        val adapter = CocktailAdapter(cocktailList)
-        val spinner = layout.sortlist_spinner
+        adapter = CocktailAdapter(cocktailList)
+
+        // sorting of displayed cocktails
         spinner?.adapter = ArrayAdapter(
             Cocktailor.applicationContext(),
             R.layout.support_simple_spinner_dropdown_item,
@@ -81,6 +86,8 @@ class CocktailFragment : BaseFragment() {
             }
 
         }
+
+        // displaying recipe on click on cocktail
         layout.cocktails.setOnItemClickListener { parent, view, position, id ->
             val element = adapter.getItem(position)
             val recipeFragment = RecipeFragment(element.idDrink)
@@ -88,8 +95,8 @@ class CocktailFragment : BaseFragment() {
                 recipeFragment
             )
         }
+
         layout.cocktails.adapter = adapter
-        adapter.notifyDataSetChanged()
         return layout
     }
 }

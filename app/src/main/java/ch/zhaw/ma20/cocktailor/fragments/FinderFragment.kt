@@ -20,7 +20,9 @@ import kotlinx.android.synthetic.main.fragment_finder.*
 import kotlinx.android.synthetic.main.fragment_finder.view.*
 import java.util.*
 
-
+/**
+ * Fragment to select ingredients for cocktail search and start search.
+ */
 class FinderFragment : BaseFragment() {
     var adapter: IngredientsSearchAdapter? = null
 
@@ -36,7 +38,9 @@ class FinderFragment : BaseFragment() {
         )
         layout.ingredients_list.adapter = adapter
 
-        // filter list items by to selected items only
+        /* filter list items to selected items only when switch is checked.
+           this is done by setting new adapter with reduced list of selected items
+        */
         layout.filterIngredientsSwitch.setOnCheckedChangeListener { _, isChecked ->
             adapter = if (isChecked) {
                 val reducedList =
@@ -54,10 +58,10 @@ class FinderFragment : BaseFragment() {
                 )
             }
             layout.ingredients_list.adapter = adapter
-            adapter!!.notifyDataSetChanged()
         }
 
-        // filter list items by user input
+        /* filter provided list by user input in search field.
+           this is done by setting new adapter with reduced list of selected items */
         layout.filterIngredientsSubstringEt.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(
                 s: CharSequence,
@@ -66,7 +70,6 @@ class FinderFragment : BaseFragment() {
                 after: Int
             ) {
             }
-
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 if (s.isEmpty()) {
                     adapter = IngredientsSearchAdapter(
@@ -84,11 +87,13 @@ class FinderFragment : BaseFragment() {
                     adapter!!.notifyDataSetChanged()
                 }
             }
-
             override fun afterTextChanged(s: Editable) {}
         })
 
-        // handle search
+        /* Handle search and possible returns of null search results.
+           Only technical errors are possible: search is executed with ingredients
+           provided by API and cocktail IDs also provided by API. Therefore no false user input possible.
+         */
         layout.startSearchButton.setOnClickListener {
             val connector =
                 if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
@@ -97,12 +102,12 @@ class FinderFragment : BaseFragment() {
                 if (it != null && it.size > 0) {
                     RecipeRequestHandler.getRecipesForCocktails(it) {
                         if (it != null) {
-                            val cocktailSearchResultFragment =
+                            val cocktailFragment =
                             CocktailFragment()
                             val bundle : Bundle = bundleOf("type" to "search")
-                            cocktailSearchResultFragment.arguments = bundle
+                            cocktailFragment.arguments = bundle
                             (activity as MainActivity?)?.makeCurrentFragment(
-                                cocktailSearchResultFragment
+                                cocktailFragment
                             )
                         } else {
                             Toast.makeText(
@@ -127,8 +132,6 @@ class FinderFragment : BaseFragment() {
                 }
             }
         }
-        // handle selection of ingredients (https://stackoverflow.com/questions/2367936/listview-onitemclicklistener-not-responding)
-        layout.ingredients_list.itemsCanFocus = true
         return layout
     }
 
