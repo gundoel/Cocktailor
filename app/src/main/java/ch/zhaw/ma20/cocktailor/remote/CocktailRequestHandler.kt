@@ -10,12 +10,16 @@ import java.util.concurrent.atomic.AtomicInteger
 class CocktailRequestHandler {
     companion object {
         private val allRequestResults = mutableListOf<MutableMap<String, Cocktail>>()
-        private val commonResults = mutableMapOf<String, Cocktail>()
-        private var hasRequestFailed: Boolean = false
+        private val allRequestResultsUnique = mutableMapOf<String, Cocktail>()
         private val service = ServiceVolley()
         private val apiController = APIController(service)
 
-        fun getCocktailsByIngredients(
+        /**
+         * Returns and caches Cocktails for given set of ingredients, connector (OR = all results, AND = only cocktails with all of given ingedients).
+         * Result are delivered, when all requests finished. All requests are collected and callback (completion handler) is executed, after all results
+         * have been delivered. Results are being cached. Caller does not neet to handle caching and can access data from Cache.
+         */
+        fun getAndCacheCocktailsByIngredients(
             ingredientIdSet: MutableSet<String>,
             connector: Connector = Connector.OR,
             completionHandler: (response: MutableList<Cocktail>?) -> Unit
@@ -33,7 +37,6 @@ class CocktailRequestHandler {
                             )
                         }
                         // all cocktail requests done
-                        //TODO Error handling if request fails
                         if (pendingRequests.decrementAndGet() == 0) {
                             val cocktailList = mutableListOf<Cocktail>()
                             if (connector == Connector.OR) {
@@ -47,18 +50,27 @@ class CocktailRequestHandler {
                             completionHandler(cocktailList)
                         }
                     } else {
-                        // TODO what happens if single request fails?
+                        // at least one request failed. return null to handle in calling fragment.
                         completionHandler(null)
                     }
                 }
             }
         }
 
+        /**
+         * Gets all Cocktails from allRequestResults, which were contained in all of search results.
+         * allRequestResults is a List of maps (one for each searchresult)
+         * 1. add all search results to allRequestResultsUnique map (duplicates are removed, since the have same key).
+         *    allRequestResultsUnique contains on occurence of each result for easier access.
+         * 2. create tempResultList as Set. This Set is initialized with first search result and afterwards reduced by intersection with following search results.
+         *    In the end, tempResultList contains all keys, which are common in all search results.
+         * 3. Add all items from allRequestResultsUnique, which are in tempResultList, and add them to result list.
+         */
         private fun getCocktailsAND(): MutableList<Cocktail> {
             // put all cocktails in map for easy filtering
             for (item in allRequestResults) {
                 for (item in item.values) {
-                    commonResults[item.idDrink] = item
+                    allRequestResultsUnique[item.idDrink] = item
                 }
             }
             //initialize with keys of first map
@@ -68,11 +80,15 @@ class CocktailRequestHandler {
                 tempResultList = tempResultList.intersect(item.keys)
             }
             for (item in tempResultList) {
-                commonResults[item]?.let { resultList.add(it) }
+                allRequestResultsUnique[item]?.let { resultList.add(it) }
             }
             return resultList
         }
 
+        /**
+         * Gets all Cocktails from allRequestResults, which were contained at least in one of search results. OR is simple (compared to AND).
+         * Only duplicates need to be removed: this is done with a map, since cocktails with same key are going to be unique in map)
+         */
         private fun getCocktailsOR(): MutableList<Cocktail> {
             val resultMap = mutableMapOf<String,Cocktail>()
             for (item in allRequestResults) {

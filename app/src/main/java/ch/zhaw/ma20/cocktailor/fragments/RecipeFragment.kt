@@ -19,6 +19,9 @@ import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_recipe.view.*
 
+/**
+ * Fragment to display cocktail details, recipe and ingredients state (available in bar or not)
+ */
 class RecipeFragment(private val cocktailId: String) : BaseFragment() {
     private val service = ServiceVolley()
     private val apiController = APIController(service)
@@ -32,7 +35,7 @@ class RecipeFragment(private val cocktailId: String) : BaseFragment() {
     ): View? {
         var recipe: Recipe? = RemoteDataCache.lastRecipeSearchResultMap[cocktailId]
         /* load recipe from cache (available if recipe was cached during search.
-        If recipe is called from favorites, recipe might not be in cache and needs therefore to be reloaded          */
+        If recipe is called from favorites, recipe might not be in cache and needs therefore to be reloaded from API*/
         if (recipe == null) {
             apiController.get(path) { response ->
                 val recipeRemote = response?.let {
@@ -80,8 +83,6 @@ class RecipeFragment(private val cocktailId: String) : BaseFragment() {
                 }
             }
         }
-
         return layout
-
     }
 }

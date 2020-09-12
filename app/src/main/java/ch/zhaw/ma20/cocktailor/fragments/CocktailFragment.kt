@@ -42,7 +42,7 @@ class CocktailFragment : BaseFragment() {
         since recipes are already in cache when displaying search results */
         if (type == "favorites") {
             cocktailList = RemoteDataCache.favoriteCocktailsList
-            RecipeRequestHandler.getRecipesForCocktails(cocktailList) {
+            RecipeRequestHandler.getAndCacheRecipesForCocktails(cocktailList) {
                 if (it != null) {
                     adapter = CocktailAdapter(cocktailList)
                     layout.cocktails.adapter = adapter

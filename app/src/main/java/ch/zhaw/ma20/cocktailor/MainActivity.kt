@@ -19,9 +19,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //setSupportActionBar(findViewById(R.id.toolbar))
-
-        // load data
         val finderFragment = FinderFragment()
         val favoritesFragment = CocktailFragment()
         // CocktailFragment is being reused. Parameter needed for different behavior when displaying favorites
@@ -31,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         cacheTearDown = CacheTearDown()
 
+        // set finder fragment as first fragment
         makeCurrentFragment(finderFragment)
 
         bottom_navigation_menu.setOnNavigationItemSelectedListener {

@@ -12,9 +12,13 @@ class RecipeRequestHandler {
         private val service = ServiceVolley()
         private val apiController = APIController(service)
         private val allRequestResults = mutableListOf<Recipe>()
-        var hasRequestFailed: Boolean = false
 
-        fun getRecipesForCocktails(
+        /**
+         * Returns and caches Recipes for given set of cocktails. Result are delivered, when all requests finished.
+         * All requests are collected and callback (completion handler) is executed, after all results
+         * have been delivered. Results are being cached. Caller does not neet to handle caching and can access data from Cache.
+         */
+        fun getAndCacheRecipesForCocktails(
             cocktailList: MutableList<Cocktail>,
             completionHandler: (response: MutableList<Recipe>?) -> Unit
         ) {
@@ -26,7 +30,7 @@ class RecipeRequestHandler {
                 apiController.get(recipePath) { response ->
                     if (response != null) {
                         val recipes = Klaxon().parse<RecipeSearchResult>(response)
-                        // recipe is always only 1 (unique id)
+                        // recipe is always only 1 (id is unique)
                         val recipe = recipes?.drinks?.get(0)
                         if (recipe != null) {
                             allRequestResults.add(recipe)
@@ -40,7 +44,7 @@ class RecipeRequestHandler {
                             completionHandler(allRequestResults)
                         }
                     } else {
-                        // TODO what happens if single request fails?
+                        // at least one request failed. return null to handle in calling fragment.
                         completionHandler(null)
                     }
                 }

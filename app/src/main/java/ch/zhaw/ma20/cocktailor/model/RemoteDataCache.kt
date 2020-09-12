@@ -1,14 +1,15 @@
 package ch.zhaw.ma20.cocktailor.model
 
-import com.google.gson.Gson
-
+/**
+ * Centralized cache for all data, thats need to be cached. Singleton, that can be accessed from anywhere in app.
+ * Provides some useful functions (with simple business logic) to access cache data.
+ **/
 object RemoteDataCache {
     var ingredientsList = mutableListOf<Ingredient>()
     val selectedItemsSet = mutableSetOf<String>()
     var lastCocktailSearchResultList = mutableListOf<Cocktail>()
     var lastRecipeSearchResultMap = mutableMapOf<String, Recipe>()
     var myBarList: MutableList<Ingredient> = mutableListOf()
-    val gson = Gson()
     var favoriteCocktailsList = mutableListOf<Cocktail>()
 
     fun addIngredientsList(list : MutableList<Ingredient>) {

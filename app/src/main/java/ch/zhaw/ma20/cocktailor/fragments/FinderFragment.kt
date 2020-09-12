@@ -98,9 +98,9 @@ class FinderFragment : BaseFragment() {
             val connector =
                 if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
             // get CocktailList and afterwards recipes for search results
-            CocktailRequestHandler.getCocktailsByIngredients(selectedItems, connector) { it ->
+            CocktailRequestHandler.getAndCacheCocktailsByIngredients(selectedItems, connector) { it ->
                 if (it != null && it.size > 0) {
-                    RecipeRequestHandler.getRecipesForCocktails(it) {
+                    RecipeRequestHandler.getAndCacheRecipesForCocktails(it) {
                         if (it != null) {
                             val cocktailFragment =
                             CocktailFragment()

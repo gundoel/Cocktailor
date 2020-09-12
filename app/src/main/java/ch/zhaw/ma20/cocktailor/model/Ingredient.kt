@@ -1,5 +1,8 @@
 package ch.zhaw.ma20.cocktailor.model
 
+/**
+ * Represents an ingredient. This is just the name as result of parsing e.g. https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list
+ */
 class Ingredient(val strIngredient1: String) {
 
     override fun hashCode(): Int {

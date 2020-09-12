@@ -7,6 +7,7 @@ import com.android.volley.VolleyLog
 import com.android.volley.toolbox.StringRequest as StringRequest
 
 /**
+ * Handles volle request and delivers result in callback (completion handler)
  * https://www.varvet.com/blog/kotlin-with-volley/ adapted to work with GET and StringRequest
  */
 

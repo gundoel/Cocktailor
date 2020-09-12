@@ -4,13 +4,15 @@ import android.content.Context
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import com.google.gson.Gson
 
 class CacheTearDown {
+    private val gson = Gson()
 
     fun persistIngredientList(list: MutableList<Ingredient>?, listName: String) {
         val settings = Cocktailor.applicationContext().getSharedPreferences(listName, Context.MODE_PRIVATE)
         val editor = settings.edit()
-        val jsonString : String = RemoteDataCache.gson.toJson(list)
+        val jsonString : String = gson.toJson(list)
         editor.putString(listName, jsonString)
         editor.apply()
     }
@@ -18,7 +20,7 @@ class CacheTearDown {
     fun persistCocktailList(list: MutableList<Cocktail>?, listName: String) {
         val settings = Cocktailor.applicationContext().getSharedPreferences(listName, Context.MODE_PRIVATE)
         val editor = settings.edit()
-        val jsonString : String = RemoteDataCache.gson.toJson(list)
+        val jsonString : String = gson.toJson(list)
         editor.putString(listName, jsonString)
         editor.apply()
     }

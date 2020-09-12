@@ -1,5 +1,9 @@
 package ch.zhaw.ma20.cocktailor.model
 
+/**
+ * Represents a Cocktail. Constructor has all Parameters needed to represent a Cocktail, e.g.https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=Gin
+ * Cocktails are used for overview information. Detailed information of Cocktails is handled in @see ch.zhaw.ma20.cocktailor.Recipe
+ */
 class Cocktail(val strDrink : String, val strDrinkThumb : String, val idDrink : String, var missingIngredients : Int = 0, var availableIngredients : Int = 0) {
 
     fun setIngredientNumbers(ingredientsList: MutableList<String>) {

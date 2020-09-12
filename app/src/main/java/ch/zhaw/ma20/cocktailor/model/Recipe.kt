@@ -1,5 +1,9 @@
 package ch.zhaw.ma20.cocktailor.model
 
+/**
+ * Represents detail information for a Cocktail. Constructor has all Parameters needed to represent recipe and detail information for a Cocktail.
+ * Cocktail details e.g. https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=15300 are being parsed as recipe.
+ */
 class Recipe(
     val idDrink: String,
     val strDrink: String,

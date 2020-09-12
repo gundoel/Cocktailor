@@ -8,7 +8,7 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 
 /**
- * Provides access to application Context from anywhere and handles all volley requests
+ * Provides access to application Context from anywhere and has centralized volley queue for all volley requests of Cocktailor
  * https://www.varvet.com/blog/kotlin-with-volley/ adapted to work with GET and StringRequest
  */
 
