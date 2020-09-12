@@ -4,9 +4,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.appconst.PersistentData
-import ch.zhaw.ma20.cocktailor.fragments.FavoritesFragment
+import ch.zhaw.ma20.cocktailor.fragments.CocktailFragment
 import ch.zhaw.ma20.cocktailor.fragments.FinderFragment
 import ch.zhaw.ma20.cocktailor.fragments.MyBarFragment
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
@@ -22,7 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         // load data
         val finderFragment = FinderFragment()
-        val favoritesFragment = FavoritesFragment()
+        val favoritesFragment = CocktailFragment()
+        // CocktailFragment is being reused. Parameter needed for different behavior when displaying favorites
+        val bundle : Bundle = bundleOf("type" to "favorites")
+        favoritesFragment.arguments = bundle
         val myBarFragment = MyBarFragment()
 
         cacheTearDown = CacheTearDown()

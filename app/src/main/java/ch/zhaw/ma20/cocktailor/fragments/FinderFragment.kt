@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import ch.zhaw.ma20.cocktailor.*
 import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.appconst.Connector
@@ -97,7 +98,9 @@ class FinderFragment : BaseFragment() {
                     RecipeRequestHandler.getRecipesForCocktails(it) {
                         if (it != null) {
                             val cocktailSearchResultFragment =
-                                CocktailSearchResultFragment()
+                            CocktailFragment()
+                            val bundle : Bundle = bundleOf("type" to "search")
+                            cocktailSearchResultFragment.arguments = bundle
                             (activity as MainActivity?)?.makeCurrentFragment(
                                 cocktailSearchResultFragment
                             )
