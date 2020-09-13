@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.RecipeIngredientsAdapter
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_recipe.view.*
 /**
  * Fragment to display cocktail details, recipe and ingredients state (available in bar or not)
  */
-class RecipeFragment(private val cocktailId: String) : BaseFragment() {
+class RecipeFragment(private val cocktailId: String) : Fragment() {
     private val service = ServiceVolley()
     private val apiController = APIController(service)
     private var adapter: RecipeIngredientsAdapter? = null

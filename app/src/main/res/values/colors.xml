@@ -2,6 +2,8 @@
 <resources>
     <color name="colorPrimary">#82B1FF</color>
     <color name="colorPrimaryDark">#0D47A1</color>
+    <color name="colorPrimaryFaded">#C1D8FF</color>
     <color name="colorAccent">#90CAF9</color>
     <color name="white">#FFFFFF</color>
+    <color name="egg">#E8E8E8</color>
 </resources>

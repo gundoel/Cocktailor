@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
+import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.MyBarListAdapter
 import ch.zhaw.ma20.cocktailor.model.Ingredient
@@ -12,8 +14,7 @@ import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 
-class MyBarFragment : BaseFragment() {
-    private val myBarList = RemoteDataCache.getMyBarList()
+class MyBarFragment : Fragment() {
     private var adapterBarList: MyBarListAdapter? = null
     var adapterArrayList: ArrayAdapter<String>? = null
     var searchList = arrayListOf<String>()
@@ -23,6 +24,7 @@ class MyBarFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val myBarList = RemoteDataCache.getMyBarList()
         // convert ingredients list to ArrayList
         for (ingredient in RemoteDataCache.ingredientsList) {
             if (!searchList.contains(ingredient.strIngredient1)) {
@@ -32,13 +34,18 @@ class MyBarFragment : BaseFragment() {
 
         val layout = inflater.inflate(R.layout.fragment_my_bar, container, false)
 
-        adapterArrayList = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, searchList)
+        adapterArrayList = ArrayAdapter(Cocktailor.applicationContext(), android.R.layout.simple_list_item_1, searchList)
         layout.listViewMyBarSearch.adapter = adapterArrayList
         layout.listViewMyBarSearch.setOnItemClickListener { _, _, position, _ ->
             val stringElement: String? = adapterArrayList!!.getItem(position)
             val newIngredientListItem = stringElement?.let { Ingredient(it) }
             if (newIngredientListItem != null && !myBarList.contains(newIngredientListItem)) {
                 myBarList.add(newIngredientListItem)
+                Toast.makeText(
+                    Cocktailor.applicationContext(),
+                    stringElement + Cocktailor.applicationContext().getString(R.string.added_to_bar),
+                    Toast.LENGTH_LONG
+                ).show()
             }
             myBarList.sortBy { ingredientListItem -> ingredientListItem.strIngredient1 }
             adapterBarList?.notifyDataSetChanged()

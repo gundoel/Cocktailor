@@ -11,6 +11,7 @@ import android.widget.ListView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
@@ -28,7 +29,7 @@ import java.util.*
 /**
  * Fragment to select ingredients for cocktail search and start search.
  */
-class FinderFragment : BaseFragment() {
+class FinderFragment : Fragment() {
     var adapter: IngredientsSearchAdapter? = null
     private val selectedItems = RemoteDataCache.selectedItemsSet
 

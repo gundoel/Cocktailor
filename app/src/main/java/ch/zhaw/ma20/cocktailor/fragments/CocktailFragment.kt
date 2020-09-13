@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.fragment.app.Fragment
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
@@ -20,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_my_bar.view.*
  * Fragment to display cocktail search results and favorite cocktails.
  * Different behavior when displaying favoritexs is handled with bundle parameter.
  */
-class CocktailFragment : BaseFragment() {
+class CocktailFragment : Fragment() {
     private var cocktailList = mutableListOf<Cocktail>()
     private var adapter = CocktailAdapter(cocktailList)
 
