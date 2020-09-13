@@ -8,11 +8,11 @@
     <string name="find_cocktails">Find Cocktails</string>
     <string name="filter_ingredients">Filter ingredients</string>
     <string name="show_selected_ingredients">Show selected ingredients only</string>
-    <string name="search_with_all_ingredients">All selected ingredients in cocktail</string>
+    <string name="search_with_all_ingredients">Find results with all of the selected ingredients only</string>
     <string name="search">Search</string>
     <string name="ingredients">Ingredients</string>
     <string name="instructions">Instructions</string>
-    <string name="empty_bar">Your bar is empty!</string>
+    <string name="nothing_to_display">Nothing to display. Check filters.</string>
     <string name="no_results">No results found. Try different ingredients or search option.</string>
     <string name="added_to_favorites">" added to favorites"</string>
     <string name="removed_from_favorites">" removed from favorites"</string>
@@ -23,6 +23,7 @@
     <string name="sortBy">"Sort by: "</string>
     <string name="in_bar">My bar</string>
     <string name="amount">Amount</string>
+    <string name="empty_bar">Your bar is empty!</string>
     <string name="empty_favorites">Nothing to show. Search for Cocktails and add recipes to your favorites</string>
     <string name="cocktail_image">cocktail image</string>
     <string name="recommended_glass">"Recommended glass: "</string>

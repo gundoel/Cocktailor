@@ -27,7 +27,6 @@
         android:layout_height="wrap_content"
         android:maxLines="1"
         android:inputType="text"
-        android:layout_marginTop="20dp"
         android:hint="@string/filter_ingredients"
         app:layout_constraintBottom_toTopOf="@+id/filterIngredientsWrapper"
         app:layout_constraintTop_toBottomOf="@+id/findCocktailsTitle" />
@@ -82,25 +81,27 @@
         android:id="@+id/searchWithAllIngredientsWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterIngredientsWrapper">
+
+        <CheckBox
+            android:id="@+id/searchWithAllIngredientsCb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp" />
 
         <TextView
             android:id="@+id/searchWithAllIngredientsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:labelFor="@id/searchWithAllIngredientsSwitch"
+            android:inputType="textMultiLine"
+            android:maxWidth="200dp"
+            android:labelFor="@id/searchWithAllIngredientsCb"
             android:text="@string/search_with_all_ingredients" />
-
-        <Switch
-            android:id="@+id/searchWithAllIngredientsSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="20dp" />
 
         <Button
             android:id="@+id/startSearchButton"
@@ -111,10 +112,10 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/NoItemsInBar"
+        android:id="@+id/NothingToDisplay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/empty_bar"
+        android:text="@string/nothing_to_display"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

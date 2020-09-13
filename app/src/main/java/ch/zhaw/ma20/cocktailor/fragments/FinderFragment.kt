@@ -21,10 +21,8 @@ import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.remote.CocktailRequestHandler
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
-import kotlinx.android.synthetic.main.fragment_cocktails.view.*
 import kotlinx.android.synthetic.main.fragment_finder.*
 import kotlinx.android.synthetic.main.fragment_finder.view.*
-import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 import java.util.*
 
 /**
@@ -32,6 +30,7 @@ import java.util.*
  */
 class FinderFragment : BaseFragment() {
     var adapter: IngredientsSearchAdapter? = null
+    private val selectedItems = RemoteDataCache.selectedItemsSet
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,61 +38,24 @@ class FinderFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val layout = inflater.inflate(R.layout.fragment_finder, container, false)
-        val selectedItems = RemoteDataCache.selectedItemsSet
-
-        adapter = IngredientsSearchAdapter(
-            RemoteDataCache.ingredientsList
-        )
         val listView: ListView = layout.ingredients_list as ListView
-        val emptyText = layout.NoItemsInBar as TextView
+        val emptyText = layout.NothingToDisplay as TextView
         listView.emptyView = emptyText
+
+        var currentList = getListToDisplay(layout.selectFromMyBarSwitch.isChecked, layout.filterIngredientsSwitch.isChecked)
+        adapter = IngredientsSearchAdapter(currentList)
         layout.ingredients_list.adapter = adapter
 
-        /* filter list items to ingredients from my bar only when switch is checked.
-           this is done by setting new adapter with ingredients from my bar.
+        /* filter list items to ingredients from my bar or selectd items only when switch is checked.
+           this is done by setting new adapter with reduced/filtered list.
         */
         layout.selectFromMyBarSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                val reducedList = RemoteDataCache.getMyBarList()
-                adapter = IngredientsSearchAdapter(
-                    reducedList
-                )
-            } else {
-                // set default adapter
-                adapter = IngredientsSearchAdapter(
-                    RemoteDataCache.ingredientsList
-                )
-            }
-            layout.ingredients_list.adapter = adapter
+            currentList = getListToDisplay(layout.selectFromMyBarSwitch.isChecked, layout.filterIngredientsSwitch.isChecked)
+            layout.ingredients_list.adapter = IngredientsSearchAdapter(currentList)
         }
-
-        /* filter list items to selected items only when switch is checked.
-           this is done by setting new adapter with reduced list of selected items
-        */
         layout.filterIngredientsSwitch.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                val reducedList =
-                    RemoteDataCache.ingredientsList.filter {
-                        selectedItems.contains(it.strIngredient1)
-                    }
-                adapter = IngredientsSearchAdapter(
-                    reducedList as MutableList<Ingredient>
-                )
-
-            } else if(selectFromMyBarSwitch.isChecked) {
-                // set my bar
-                val reducedList = RemoteDataCache.getMyBarList()
-                adapter = IngredientsSearchAdapter(
-                    reducedList
-                )
-            }
-            else {
-                // set default adapter
-                adapter = IngredientsSearchAdapter(
-                    RemoteDataCache.ingredientsList
-                )
-            }
-            layout.ingredients_list.adapter = adapter
+            currentList = getListToDisplay(layout.selectFromMyBarSwitch.isChecked, layout.filterIngredientsSwitch.isChecked)
+            layout.ingredients_list.adapter = IngredientsSearchAdapter(currentList)
         }
 
         /* filter provided list by user input in search field.
@@ -106,15 +68,15 @@ class FinderFragment : BaseFragment() {
                 after: Int
             ) {
             }
-
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                currentList = getListToDisplay(layout.selectFromMyBarSwitch.isChecked, layout.filterIngredientsSwitch.isChecked)
                 if (s.isEmpty()) {
                     adapter = IngredientsSearchAdapter(
-                        RemoteDataCache.ingredientsList
+                        currentList
                     )
                 } else {
                     val reducedList =
-                        RemoteDataCache.ingredientsList.filter {
+                        currentList.filter {
                             it.strIngredient1.toUpperCase(Locale.GERMANY)
                                 .contains(s.toString().toUpperCase((Locale.GERMANY)))
                         }
@@ -142,7 +104,7 @@ class FinderFragment : BaseFragment() {
                 ).show()
             } else {
                 val connector =
-                    if (layout.searchWithAllIngredientsSwitch.isChecked) Connector.AND else Connector.OR
+                    if (layout.searchWithAllIngredientsCb.isChecked) Connector.AND else Connector.OR
                 // get CocktailList and afterwards recipes for search results
                 CocktailRequestHandler.getAndCacheCocktailsByIngredients(
                     selectedItems,
@@ -183,6 +145,24 @@ class FinderFragment : BaseFragment() {
             }
         }
         return layout
+    }
+
+    /**
+     * Returns the list with currently valid data based on user selection.
+     */
+    private fun getListToDisplay(isSelectFromMyBarSwitchChecked : Boolean, isFilterIngredientsSwitchChecked: Boolean) : MutableList<Ingredient> {
+        val myBarList = RemoteDataCache.getMyBarList()
+        var listToDisplay = RemoteDataCache.ingredientsList
+        if(isSelectFromMyBarSwitchChecked) {
+            listToDisplay = myBarList
+        }
+        if(isFilterIngredientsSwitchChecked) {
+            val tempList = listToDisplay.filter {
+                selectedItems.contains(it.strIngredient1)
+            }
+            listToDisplay = tempList.toMutableList()
+        }
+        return listToDisplay
     }
 
 }
