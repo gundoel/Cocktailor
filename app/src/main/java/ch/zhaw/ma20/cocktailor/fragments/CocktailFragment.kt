@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.MainActivity
 import ch.zhaw.ma20.cocktailor.R
@@ -16,6 +14,7 @@ import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import kotlinx.android.synthetic.main.fragment_cocktails.view.*
+import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 /**
  * Fragment to display cocktail search results and favorite cocktails.
@@ -41,7 +40,13 @@ class CocktailFragment : BaseFragment() {
         /* Fragment is being used to display favorites and to display search results. Loading recipes is only needed with favorites,
         since recipes are already in cache when displaying search results */
         if (type == "favorites") {
-            cocktailList = RemoteDataCache.favoriteCocktailsList
+            // display empty Text if no favorites are in list
+            val listView: ListView = layout.cocktails as ListView
+            val emptyText = layout.emptyFavorites as TextView
+            emptyText.setText(R.string.empty_favorites)
+            listView.emptyView = emptyText
+
+            cocktailList = RemoteDataCache.getFavorites()
             RecipeRequestHandler.getAndCacheRecipesForCocktails(cocktailList) {
                 if (it != null) {
                     adapter = CocktailAdapter(cocktailList)
@@ -95,7 +100,9 @@ class CocktailFragment : BaseFragment() {
                 recipeFragment
             )
         }
-
+        val listView: ListView = layout.cocktails as ListView
+        val emptyText = layout.emptyFavorites as TextView
+        listView.emptyView = emptyText
         layout.cocktails.adapter = adapter
         return layout
     }

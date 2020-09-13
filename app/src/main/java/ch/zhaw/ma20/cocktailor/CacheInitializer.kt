@@ -24,8 +24,12 @@ class CacheInitializer : AppCompatActivity() {
         val path = "list.php?i=list"
 
         // read persistent data from storage
-        readIngredientList(PersistentData.MY_BAR_LIST)?.let { RemoteDataCache.addMyBarList(it) }
-        readCocktailList(PersistentData.MY_FAVORITES_LIST)?.let { RemoteDataCache.addFavoriteCocktailList(it)}
+        readIngredientList(PersistentData.MY_BAR_LIST)?.let {
+            RemoteDataCache.addMyBarList(it)
+        }
+        readCocktailList(PersistentData.MY_FAVORITES_LIST)?.let {
+            RemoteDataCache.addFavoriteCocktailList(it)
+        }
         // cache ingredients
         apiController.get(path) { response ->
             val ingredients = response?.let { Klaxon().parse<IngredientSearchResult>(it) }

@@ -33,13 +33,36 @@
         app:layout_constraintTop_toBottomOf="@+id/findCocktailsTitle" />
 
     <LinearLayout
-        android:id="@+id/filterIngredientsWrapper"
+        android:id="@+id/selectFromMyBarWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterIngredientsSubstringEt">
+
+        <Switch
+            android:id="@+id/selectFromMyBarSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp" />
+
+        <TextView
+            android:id="@+id/selectFromMyBarLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/filterIngredientsSwitch"
+            android:text="@string/only_bar_ingredients" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/filterIngredientsWrapper"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selectFromMyBarWrapper">
 
         <Switch
             android:id="@+id/filterIngredientsSwitch"
@@ -55,43 +78,53 @@
             android:text="@string/show_selected_ingredients" />
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/searchWithAllIngredientsWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filterIngredientsWrapper">
-
-        <Switch
-            android:id="@+id/searchWithAllIngredientsSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp" />
 
         <TextView
             android:id="@+id/searchWithAllIngredientsLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:labelFor="@id/searchWithAllIngredientsSwitch"
             android:text="@string/search_with_all_ingredients" />
+
+        <Switch
+            android:id="@+id/searchWithAllIngredientsSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="20dp" />
+
+        <Button
+            android:id="@+id/startSearchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="@string/search" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/startSearchButton"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/NoItemsInBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/search"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchWithAllIngredientsWrapper" />
+        android:text="@string/empty_bar"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchWithAllIngredientsWrapper"/>
 
     <ListView
         android:id="@+id/ingredients_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

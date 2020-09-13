@@ -4,10 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.Toast
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.model.Ingredient
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import ch.zhaw.ma20.cocktailor.R
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
 
 class IngredientsSearchAdapter(
@@ -42,6 +44,13 @@ class IngredientsSearchAdapter(
                 selectedItems.remove(itemText)
             } else if (isChecked) {
                 selectedItems.add(itemText)
+                if(!RemoteDataCache.isIngredientInMyBar(itemText)) {
+                    Snackbar.make(view,(itemText + Cocktailor.applicationContext().getString(R.string.ingredient_not_in_bar)), Snackbar.LENGTH_LONG)
+                        .setAction(R.string.add_to_bar) {
+                            RemoteDataCache.addIngredientToMyBar(Ingredient(itemText))
+                            Toast.makeText(Cocktailor.applicationContext(), (itemText + Cocktailor.applicationContext().getString(R.string.added_to_bar)), Toast.LENGTH_LONG).show()
+                        }.show()
+                }
             }
             //Log.i("CHECKBOX",view.ingredientNameCb.text.toString() + " checked changed to " + isChecked.toString())
         }

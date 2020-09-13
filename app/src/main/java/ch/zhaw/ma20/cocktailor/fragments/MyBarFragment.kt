@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 
 class MyBarFragment : BaseFragment() {
-    private val myBarList = RemoteDataCache.myBarList
+    private val myBarList = RemoteDataCache.getMyBarList()
     private var adapterBarList: MyBarListAdapter? = null
     var adapterArrayList: ArrayAdapter<String>? = null
     var searchList = arrayListOf<String>()
