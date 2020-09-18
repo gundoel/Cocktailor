@@ -40,7 +40,7 @@ class MyBarFragment : Fragment() {
             val stringElement: String? = adapterArrayList!!.getItem(position)
             val newIngredientListItem = stringElement?.let { Ingredient(it) }
             if (newIngredientListItem != null && !myBarList.contains(newIngredientListItem)) {
-                myBarList.add(newIngredientListItem)
+                RemoteDataCache.addIngredientToMyBar(newIngredientListItem)
                 Toast.makeText(
                     Cocktailor.applicationContext(),
                     stringElement + Cocktailor.applicationContext().getString(R.string.added_to_bar),
