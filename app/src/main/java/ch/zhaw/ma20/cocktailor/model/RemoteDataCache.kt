@@ -1,7 +1,6 @@
 package ch.zhaw.ma20.cocktailor.model
 
 import ch.zhaw.ma20.cocktailor.PersistenceHandler
-import ch.zhaw.ma20.cocktailor.appconst.PersistentData
 
 /**
  * Centralized cache for all data, thats need to be cached. Singleton, that can be accessed from anywhere in app.
@@ -55,7 +54,7 @@ object RemoteDataCache {
     }
 
     fun isIngredientInMyBar(ingredientName : String) : Boolean {
-        return myBarList.any{ingredientListItem -> ingredientListItem.strIngredient1  == ingredientName}
+        return myBarList.any { ingredientListItem -> ingredientListItem.strIngredient1  == ingredientName}
     }
 
     fun getNumberOfGivenIngredientsInMyBar(ingredientsList: MutableList<String>) : Int {
