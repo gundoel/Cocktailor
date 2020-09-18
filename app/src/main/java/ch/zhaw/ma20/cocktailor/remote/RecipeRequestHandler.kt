@@ -11,7 +11,7 @@ class RecipeRequestHandler {
     companion object {
         private val service = ServiceVolley()
         private val apiController = APIController(service)
-        private val allRequestResults = mutableListOf<Recipe>()
+        private lateinit var allRequestResults: MutableList<Recipe>
 
         /**
          * Returns and caches Recipes for given set of cocktails. Result are delivered, when all requests finished.
@@ -23,6 +23,7 @@ class RecipeRequestHandler {
             completionHandler: (response: MutableList<Recipe>?) -> Unit
         ) {
             val pendingRequests = AtomicInteger(cocktailList.size)
+            allRequestResults = mutableListOf<Recipe>()
             for (item in cocktailList) {
                 val cocktailId = item.idDrink
                 val recipePath = "lookup.php?i=$cocktailId"

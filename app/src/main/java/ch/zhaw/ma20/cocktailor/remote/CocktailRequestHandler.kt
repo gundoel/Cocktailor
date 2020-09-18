@@ -6,11 +6,12 @@ import ch.zhaw.ma20.cocktailor.model.CocktailSearchResult
 import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import com.beust.klaxon.Klaxon
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.collections.mutableMapOf as mutableMapOf
 
 class CocktailRequestHandler {
     companion object {
-        private val allRequestResults = mutableListOf<MutableMap<String, Cocktail>>()
-        private val allRequestResultsUnique = mutableMapOf<String, Cocktail>()
+        private lateinit var allRequestResults: MutableList<MutableMap<String,Cocktail>>
+        private lateinit var allRequestResultsUnique : MutableMap<String, Cocktail>
         private val service = ServiceVolley()
         private val apiController = APIController(service)
 
@@ -24,6 +25,8 @@ class CocktailRequestHandler {
             connector: Connector = Connector.OR,
             completionHandler: (response: MutableList<Cocktail>?) -> Unit
         ) {
+            allRequestResults = mutableListOf<MutableMap<String, Cocktail>>()
+            allRequestResultsUnique = mutableMapOf<String, Cocktail>()
             val pendingRequests = AtomicInteger(ingredientIdSet.size)
             for (item in ingredientIdSet) {
                 val path = "filter.php?i=$item"
