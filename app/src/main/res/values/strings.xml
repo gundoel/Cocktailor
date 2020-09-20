@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">Cocktailor</string>
     <string name="action_settings">Settings</string>
-    <!-- fragments -->
     <string name="favorites">Favorite Cocktails</string>
     <string name="finder">Find Cocktails</string>
     <string name="mybar">My Bar</string>
@@ -24,7 +23,7 @@
     <string name="in_bar">My bar</string>
     <string name="amount">Amount</string>
     <string name="empty_bar">Your bar is empty!</string>
-    <string name="empty_favorites">Nothing to show. Search for Cocktails and add recipes to your favorites</string>
+    <string name="empty_favorites">Nothing to display. Search for Cocktails and add recipes to your favorites</string>
     <string name="cocktail_image">cocktail image</string>
     <string name="recommended_glass">"Recommended glass: "</string>
     <string name="ingredient_not_in_bar">" is not in your bar. Add ingredient?"</string>
