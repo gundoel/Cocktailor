@@ -1,5 +1,6 @@
 package ch.zhaw.ma20.cocktailor.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -37,7 +38,10 @@ class RecipeIngredientsAdapter(
         val entry = getItem(index)
         view.recipeMeasurement.text = entry.measure
         view.recipeIngredient.text = entry.ingredient
+        // needs to be reset in case bar shelf has changed
+        view.recipeIngredientInMyBar.setBackgroundResource(0)
         if (RemoteDataCache.isIngredientInMyBar(entry.ingredient)) {
+            Log.i("RecipeIngredientsAdapter",entry.ingredient + RemoteDataCache.isIngredientInMyBar(entry.ingredient))
             view.recipeIngredientInMyBar.setBackgroundResource(R.drawable.ic_baseline_done_24)
         }
         return view
