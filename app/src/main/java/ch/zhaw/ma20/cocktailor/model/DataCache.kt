@@ -6,7 +6,7 @@ import ch.zhaw.ma20.cocktailor.PersistenceHandler
  * Centralized cache for all data, thats need to be cached. Singleton, that can be accessed from anywhere in app.
  * Provides some useful functions (with simple business logic) to access cache data.
  **/
-object RemoteDataCache {
+object DataCache {
     var ingredientsList = mutableListOf<Ingredient>()
     val selectedItemsSet = mutableSetOf<String>()
     var lastCocktailSearchResultList = mutableListOf<Cocktail>()

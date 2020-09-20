@@ -3,7 +3,7 @@ package ch.zhaw.ma20.cocktailor.remote
 import ch.zhaw.ma20.cocktailor.appconst.Connector
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.CocktailSearchResult
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import com.beust.klaxon.Klaxon
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.collections.mutableMapOf as mutableMapOf
@@ -49,7 +49,7 @@ class CocktailRequestHandler {
                             else {
                                 cocktailList.addAll(getCocktailsAND())
                             }
-                            RemoteDataCache.addLastCocktailSearchResult(cocktailList)
+                            DataCache.addLastCocktailSearchResult(cocktailList)
                             completionHandler(cocktailList)
                         }
                     } else {

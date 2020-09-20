@@ -3,7 +3,7 @@ package ch.zhaw.ma20.cocktailor.remote
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.Recipe
 import ch.zhaw.ma20.cocktailor.model.RecipeSearchResult
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import com.beust.klaxon.Klaxon
 import java.util.concurrent.atomic.AtomicInteger
 
@@ -41,7 +41,7 @@ class RecipeRequestHandler {
                             ?.map { it.ingredient })!!.toMutableList()
                         item.setIngredientNumbers(ingredientsList)
                         if (pendingRequests.decrementAndGet() == 0) {
-                            RemoteDataCache.addLastRecipeSearchResult(allRequestResults)
+                            DataCache.addLastRecipeSearchResult(allRequestResults)
                             completionHandler(allRequestResults)
                         }
                     } else {

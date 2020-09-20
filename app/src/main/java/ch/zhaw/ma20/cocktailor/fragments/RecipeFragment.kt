@@ -15,7 +15,7 @@ import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.RecipeIngredientsAdapter
 import ch.zhaw.ma20.cocktailor.model.Recipe
 import ch.zhaw.ma20.cocktailor.model.RecipeSearchResult
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import com.beust.klaxon.Klaxon
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_recipe.view.*
@@ -34,7 +34,7 @@ class RecipeFragment(private val cocktailId: String) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var recipe: Recipe? = RemoteDataCache.lastRecipeSearchResultMap[cocktailId]
+        var recipe: Recipe? = DataCache.lastRecipeSearchResultMap[cocktailId]
         /* load recipe from cache (available if recipe was cached during search.
         If recipe is called from favorites, recipe might not be in cache and needs therefore to be reloaded from API*/
         if (recipe == null) {
@@ -64,18 +64,18 @@ class RecipeFragment(private val cocktailId: String) : Fragment() {
             adapter = RecipeIngredientsAdapter(recipe.getIngredientsList())
             layout.recipeIngredients.adapter = adapter
             // initialize like button
-            layout.likeButton.isChecked = RemoteDataCache.isRecipeInFavorites(recipe)
+            layout.likeButton.isChecked = DataCache.isRecipeInFavorites(recipe)
             // like button action
             layout.likeButton.setOnClickListener {
                 if (layout.likeButton.isChecked) {
-                    RemoteDataCache.addRecipeToFavorites(recipe)
+                    DataCache.addRecipeToFavorites(recipe)
                     Toast.makeText(
                         Cocktailor.applicationContext(),
                         recipe.strDrink + Cocktailor.applicationContext().getString(R.string.added_to_favorites),
                         Toast.LENGTH_SHORT
                     ).show()
                 } else {
-                    RemoteDataCache.removeRecipeFromFavorites(recipe)
+                    DataCache.removeRecipeFromFavorites(recipe)
                     Toast.makeText(
                         Cocktailor.applicationContext(),
                         recipe.strDrink + Cocktailor.applicationContext().getString(R.string.removed_from_favorites),

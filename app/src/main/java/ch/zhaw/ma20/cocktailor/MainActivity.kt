@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentManager
 import ch.zhaw.ma20.cocktailor.fragments.CocktailFragment
 import ch.zhaw.ma20.cocktailor.fragments.FinderFragment
 import ch.zhaw.ma20.cocktailor.fragments.MyBarFragment
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import kotlinx.android.synthetic.main.content_main.*
 
 
@@ -32,9 +32,7 @@ class MainActivity : AppCompatActivity() {
 
         bottom_navigation_menu.setOnNavigationItemSelectedListener {
             // reset backstack
-            var c = supportFragmentManager.backStackEntryCount
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            c = supportFragmentManager.backStackEntryCount
             when (it.itemId) {
                 R.id.nav_finder -> makeCurrentFragment(finderFragment, false)
                 R.id.nav_favorites -> makeCurrentFragment(favoritesFragment, false)
@@ -94,8 +92,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onPause() {
         super.onPause()
-        PersistenceHandler.persistIngredientList(RemoteDataCache.getMyBarList())
-        PersistenceHandler.persistCocktailList(RemoteDataCache.getFavorites())
+        PersistenceHandler.persistIngredientList(DataCache.getMyBarList())
+        PersistenceHandler.persistCocktailList(DataCache.getFavorites())
     }
 
 }

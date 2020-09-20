@@ -1,6 +1,5 @@
 package ch.zhaw.ma20.cocktailor.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +7,7 @@ import android.widget.BaseAdapter
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.RecipeIngredient
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import kotlinx.android.synthetic.main.recipe_ingredient_item.view.*
 
 class RecipeIngredientsAdapter(
@@ -40,7 +39,7 @@ class RecipeIngredientsAdapter(
         view.recipeIngredient.text = entry.ingredient
         // needs to be reset in case bar shelf has changed
         view.recipeIngredientInMyBar.setBackgroundResource(0)
-        if (RemoteDataCache.isIngredientInMyBar(entry.ingredient)) {
+        if (DataCache.isIngredientInMyBar(entry.ingredient)) {
             view.recipeIngredientInMyBar.setBackgroundResource(R.drawable.ic_baseline_done_24)
         }
         return view

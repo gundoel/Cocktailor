@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.model.Ingredient
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import kotlinx.android.synthetic.main.ingredient_item.view.*
 
 class MyBarListAdapter(
@@ -43,7 +43,7 @@ class MyBarListAdapter(
         val entry = getItem(index)
         view.deleteItemButton.setOnClickListener {
             myBarList.remove(entry)
-            RemoteDataCache.removeIngredientFromMyBar(entry)
+            DataCache.removeIngredientFromMyBar(entry)
             notifyDataSetChanged()
         }
         view.ingredientName.text = entry.strIngredient1

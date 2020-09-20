@@ -19,7 +19,7 @@ import ch.zhaw.ma20.cocktailor.adapters.IngredientsSearchAdapter
 import ch.zhaw.ma20.cocktailor.appconst.Connector
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.Ingredient
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import ch.zhaw.ma20.cocktailor.remote.CocktailRequestHandler
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import kotlinx.android.synthetic.main.fragment_finder.*
@@ -31,7 +31,7 @@ import java.util.*
  */
 class FinderFragment : Fragment() {
     var adapter: IngredientsSearchAdapter? = null
-    private val selectedItems = RemoteDataCache.selectedItemsSet
+    private lateinit var selectedItems : MutableSet<String>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +41,7 @@ class FinderFragment : Fragment() {
         val layout = inflater.inflate(R.layout.fragment_finder, container, false)
         val listView: ListView = layout.ingredients_list as ListView
         val emptyText = layout.NothingToDisplay as TextView
+        selectedItems = DataCache.selectedItemsSet
         listView.emptyView = emptyText
 
         var currentList = getListToDisplay(layout.selectFromMyBarSwitch.isChecked, layout.filterIngredientsSwitch.isChecked)
@@ -88,7 +89,6 @@ class FinderFragment : Fragment() {
                     adapter!!.notifyDataSetChanged()
                 }
             }
-
             override fun afterTextChanged(s: Editable) {}
         })
 
@@ -152,8 +152,8 @@ class FinderFragment : Fragment() {
      * Returns the list with currently valid data based on user selection.
      */
     private fun getListToDisplay(isSelectFromMyBarSwitchChecked : Boolean, isFilterIngredientsSwitchChecked: Boolean) : MutableList<Ingredient> {
-        val myBarList = RemoteDataCache.getMyBarList()
-        var listToDisplay = RemoteDataCache.ingredientsList
+        val myBarList = DataCache.getMyBarList()
+        var listToDisplay = DataCache.ingredientsList
         if(isSelectFromMyBarSwitchChecked) {
             listToDisplay = myBarList
         }

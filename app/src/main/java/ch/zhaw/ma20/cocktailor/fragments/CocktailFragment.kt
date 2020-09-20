@@ -12,10 +12,9 @@ import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.CocktailAdapter
 import ch.zhaw.ma20.cocktailor.appconst.SortingOptions
 import ch.zhaw.ma20.cocktailor.model.Cocktail
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import ch.zhaw.ma20.cocktailor.remote.RecipeRequestHandler
 import kotlinx.android.synthetic.main.fragment_cocktails.view.*
-import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 /**
  * Fragment to display cocktail search results and favorite cocktails.
@@ -47,7 +46,7 @@ class CocktailFragment : Fragment() {
             emptyText.setText(R.string.empty_favorites)
             listView.emptyView = emptyText
 
-            cocktailList = RemoteDataCache.getFavorites()
+            cocktailList = DataCache.getFavorites()
             RecipeRequestHandler.getAndCacheRecipesForCocktails(cocktailList) {
                 if (it != null) {
                     adapter = CocktailAdapter(cocktailList)
@@ -61,7 +60,7 @@ class CocktailFragment : Fragment() {
                 }
             }
         } else {
-            cocktailList = RemoteDataCache.lastCocktailSearchResultList
+            cocktailList = DataCache.lastCocktailSearchResultList
         }
         adapter = CocktailAdapter(cocktailList)
 

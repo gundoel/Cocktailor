@@ -10,7 +10,7 @@ import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.R
 import ch.zhaw.ma20.cocktailor.adapters.MyBarListAdapter
 import ch.zhaw.ma20.cocktailor.model.Ingredient
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import kotlinx.android.synthetic.main.fragment_my_bar.view.*
 
 
@@ -24,9 +24,9 @@ class MyBarFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val myBarList = RemoteDataCache.getMyBarList()
+        val myBarList = DataCache.getMyBarList()
         // convert ingredients list to ArrayList
-        for (ingredient in RemoteDataCache.ingredientsList) {
+        for (ingredient in DataCache.ingredientsList) {
             if (!searchList.contains(ingredient.strIngredient1)) {
                 searchList.add(ingredient.strIngredient1)
             }
@@ -40,7 +40,7 @@ class MyBarFragment : Fragment() {
             val stringElement: String? = adapterArrayList!!.getItem(position)
             val newIngredientListItem = stringElement?.let { Ingredient(it) }
             if (newIngredientListItem != null && !myBarList.contains(newIngredientListItem)) {
-                RemoteDataCache.addIngredientToMyBar(newIngredientListItem)
+                DataCache.addIngredientToMyBar(newIngredientListItem)
                 Toast.makeText(
                     Cocktailor.applicationContext(),
                     stringElement + Cocktailor.applicationContext().getString(R.string.added_to_bar),

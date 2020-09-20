@@ -7,7 +7,7 @@ import android.widget.BaseAdapter
 import android.widget.Toast
 import ch.zhaw.ma20.cocktailor.Cocktailor
 import ch.zhaw.ma20.cocktailor.model.Ingredient
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
+import ch.zhaw.ma20.cocktailor.model.DataCache
 import ch.zhaw.ma20.cocktailor.R
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.ingredient_selectable_item.view.*
@@ -17,7 +17,7 @@ class IngredientsSearchAdapter(
 
 ) : BaseAdapter() {
     private var layoutInflater: LayoutInflater = LayoutInflater.from(Cocktailor.applicationContext())
-    private var selectedItems = RemoteDataCache.selectedItemsSet
+    private var selectedItems = DataCache.selectedItemsSet
 
     override fun getCount(): Int {
         return ingredients.size
@@ -44,10 +44,10 @@ class IngredientsSearchAdapter(
                 selectedItems.remove(itemText)
             } else if (isChecked) {
                 selectedItems.add(itemText)
-                if(!RemoteDataCache.isIngredientInMyBar(itemText)) {
+                if(!DataCache.isIngredientInMyBar(itemText)) {
                     Snackbar.make(view,(itemText + Cocktailor.applicationContext().getString(R.string.ingredient_not_in_bar)), Snackbar.LENGTH_LONG)
                         .setAction(R.string.add_to_bar) {
-                            RemoteDataCache.addIngredientToMyBar(Ingredient(itemText))
+                            DataCache.addIngredientToMyBar(Ingredient(itemText))
                             Toast.makeText(Cocktailor.applicationContext(), (itemText + Cocktailor.applicationContext().getString(R.string.added_to_bar)), Toast.LENGTH_LONG).show()
                         }.show()
                 }

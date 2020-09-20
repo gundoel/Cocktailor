@@ -4,9 +4,7 @@ import android.content.Context
 import ch.zhaw.ma20.cocktailor.appconst.PersistentData
 import ch.zhaw.ma20.cocktailor.model.Cocktail
 import ch.zhaw.ma20.cocktailor.model.Ingredient
-import ch.zhaw.ma20.cocktailor.model.RemoteDataCache
 import com.google.gson.Gson
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 class PersistenceHandler {
     companion object {

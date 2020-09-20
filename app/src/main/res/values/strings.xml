@@ -37,4 +37,5 @@
     <string name="exit_confirm_message">Are you sure you want to close Cocktailor?</string>
     <string name="close_cocktailor">Close Cocktailor</string>
     <string name="cocktailor_closed">Cocktailor closed</string>
+    <string name="unknown_error_caching_ingredients">Caching ingredients failed. Check internet connection.</string>
 </resources>

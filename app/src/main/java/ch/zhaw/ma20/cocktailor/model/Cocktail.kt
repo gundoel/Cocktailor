@@ -8,7 +8,7 @@ class Cocktail(val strDrink : String, val strDrinkThumb : String, val idDrink : 
 
     fun setIngredientNumbers(ingredientsList: MutableList<String>) {
         val availableIngredientsMyBar =
-            RemoteDataCache.getNumberOfGivenIngredientsInMyBar(
+            DataCache.getNumberOfGivenIngredientsInMyBar(
                 ingredientsList
             )
         availableIngredients = availableIngredientsMyBar
