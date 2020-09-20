@@ -41,7 +41,6 @@ class RecipeIngredientsAdapter(
         // needs to be reset in case bar shelf has changed
         view.recipeIngredientInMyBar.setBackgroundResource(0)
         if (RemoteDataCache.isIngredientInMyBar(entry.ingredient)) {
-            Log.i("RecipeIngredientsAdapter",entry.ingredient + RemoteDataCache.isIngredientInMyBar(entry.ingredient))
             view.recipeIngredientInMyBar.setBackgroundResource(R.drawable.ic_baseline_done_24)
         }
         return view

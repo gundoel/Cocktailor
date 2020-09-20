@@ -7,7 +7,7 @@
         android:name="ch.zhaw.ma20.cocktailor.Cocktailor"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:icon="@drawable/ic_icon"
+        android:icon="@drawable/ic_icon_round"
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_icon_round"
         android:supportsRtl="true"
