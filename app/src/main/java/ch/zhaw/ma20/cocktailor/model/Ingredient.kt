@@ -7,7 +7,7 @@ class Ingredient(val strIngredient1: String) {
 
     override fun hashCode(): Int {
         var result = 17
-        result = 37 * result + strIngredient1.hashCode()
+        result = 37 * result + strIngredient1.toUpperCase().hashCode()
         return 37 * result
     }
 
@@ -19,7 +19,7 @@ class Ingredient(val strIngredient1: String) {
             return false
         }
         val other: Ingredient = other
-        return strIngredient1 == other.strIngredient1
+        return strIngredient1.toUpperCase() == other.strIngredient1.toUpperCase()
     }
 
 }

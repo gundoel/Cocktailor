@@ -9,7 +9,7 @@ class Cocktail(val strDrink : String, val strDrinkThumb : String, val idDrink : 
     fun setIngredientNumbers(ingredientsList: MutableList<String>) {
         val availableIngredientsMyBar =
             DataCache.getNumberOfGivenIngredientsInMyBar(
-                ingredientsList
+                ingredientsList.map { item -> item.toUpperCase() } as MutableList<String>
             )
         availableIngredients = availableIngredientsMyBar
         missingIngredients = ingredientsList.size - availableIngredientsMyBar

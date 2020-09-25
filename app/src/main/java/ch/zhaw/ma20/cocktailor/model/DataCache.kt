@@ -54,11 +54,12 @@ object DataCache {
     }
 
     fun isIngredientInMyBar(ingredientName : String) : Boolean {
-        return myBarList.any { ingredientListItem -> ingredientListItem.strIngredient1  == ingredientName}
+        return myBarList.any { ingredientListItem -> ingredientListItem.strIngredient1.toUpperCase()  == ingredientName.toUpperCase()}
     }
 
     fun getNumberOfGivenIngredientsInMyBar(ingredientsList: MutableList<String>) : Int {
-        val filteredList= myBarList.filter {ingredientListItem ->   ingredientsList.contains(ingredientListItem.strIngredient1)}
+        // Single ingredients use different spelling 7-Up vs 7-up
+        val filteredList= myBarList.filter {ingredientListItem ->   ingredientsList.contains(ingredientListItem.strIngredient1.toUpperCase())}
         return filteredList.size
     }
 
